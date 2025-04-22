@@ -1,6 +1,7 @@
 package com.zindigi.account_migration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mfs.commonservice.model.LkpCurrency;
 
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
@@ -65,7 +66,7 @@ public class TblTransPattern implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccount;
 
 	public TblTransPattern() {
 	}
@@ -182,11 +183,11 @@ public class TblTransPattern implements Serializable {
 		this.lkpCurrency = lkpCurrency;
 	}
 
-	public TblAccount getTblAccount() {
+	public TblAccountModel getTblAccountModel() {
 		return tblAccount;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
+	public void setTblAccountModel(TblAccountModel tblAccount) {
 		this.tblAccount = tblAccount;
 	}
 }

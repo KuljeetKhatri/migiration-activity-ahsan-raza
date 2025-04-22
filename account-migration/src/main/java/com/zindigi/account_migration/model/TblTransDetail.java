@@ -60,7 +60,7 @@ public class TblTransDetail implements Serializable {
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccount;
 
 	//bi-directional many-to-one association to TblTransHead
 	@JsonIgnore
@@ -169,11 +169,11 @@ public class TblTransDetail implements Serializable {
 		this.lkpCharge = lkpCharge;
 	}
 
-	public TblAccount getTblAccount() {
+	public TblAccountModel getTblAccountModel() {
 		return this.tblAccount;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
+	public void setTblAccountModel(TblAccountModel tblAccount) {
 		this.tblAccount = tblAccount;
 	}
 

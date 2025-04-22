@@ -16,11 +16,11 @@ public interface TblValidatorRepo extends JpaRepository<TblValidator, Long> {
             "INNER JOIN TBL_KYC_ATTRIBUTES D ON C.KYC_ATTRIBUTES_ID = D.KYC_ATTRIBUTES_ID \n" +
             "INNER JOIN TBL_VALIDATOR E ON D.VALIDATOR_ID = E.VALIDATOR_ID \n" +
             "INNER JOIN LKP_ACCOUNT_CLASSIFICATION L ON A.ACCOUNT_CLASSIFICATION_ID = L.ACCOUNT_CLASSIFICATION_ID \n" +
-            "WHERE A.ACCOUNT_LEVEL_NAME =:level2 \n" +
-            "AND L.ACCOUNT_CLASSIFICATION_NAME =:accountClassificationName \n" +
+            "WHERE A.ACCOUNT_LEVEL_NAME ='LEVEL 0' \n" +
+            "AND L.ACCOUNT_CLASSIFICATION_NAME ='INDIVIDUAL'\n" +
             "AND A.IS_ACTIVE = 'Y' \n" +
             "AND A.STATUS_ID = 2\n" +
             "AND D.IS_ACTIVE = 'Y'", nativeQuery = true)
-    List<Object> getKyc(@Param("accountClassificationName") String accountClassificationName, @Param("level2") String level2);
+    List<Object> getKyc(@Param("accountClassificationName") String accountClassificationName,@Param("level2") String level2);
 
 }

@@ -1,6 +1,8 @@
 package com.zindigi.account_migration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mfs.commonservice.model.LkpCurrency;
+import com.mfs.commonservice.model.LkpStatus;
 
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
@@ -95,7 +97,7 @@ public class TblGlCodeCombination implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@JsonIgnore
 	@OneToMany(mappedBy="tblGlCodeCombination")
-	private List<TblAccount> tblAccounts;
+	private List<TblAccountModel> tblAccounts;
 
 	//bi-directional many-to-one association to TblGlBalance
 
@@ -405,23 +407,23 @@ public class TblGlCodeCombination implements Serializable {
 		this.updateindex = updateindex;
 	}
 
-	public List<TblAccount> getTblAccounts() {
+	public List<TblAccountModel> getTblAccountsModel() {
 		return this.tblAccounts;
 	}
 
-	public void setTblAccounts(List<TblAccount> tblAccounts) {
+	public void setTblAccountsModel(List<TblAccountModel> tblAccounts) {
 		this.tblAccounts = tblAccounts;
 	}
 
-	public TblAccount addTblAccount(TblAccount tblAccount) {
-		getTblAccounts().add(tblAccount);
+	public TblAccountModel addTblAccountModel(TblAccountModel tblAccount) {
+		getTblAccountsModel().add(tblAccount);
 		tblAccount.setTblGlCodeCombination(this);
 
 		return tblAccount;
 	}
 
-	public TblAccount removeTblAccount(TblAccount tblAccount) {
-		getTblAccounts().remove(tblAccount);
+	public TblAccountModel removeTblAccountModel(TblAccountModel tblAccount) {
+		getTblAccountsModel().remove(tblAccount);
 		tblAccount.setTblGlCodeCombination(null);
 
 		return tblAccount;

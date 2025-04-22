@@ -52,7 +52,7 @@ public class TblAccountDailyStat implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccountModel;
 
 	public TblAccountDailyStat() {
 	}
@@ -145,12 +145,12 @@ public class TblAccountDailyStat implements Serializable {
 		this.updateindex = updateindex;
 	}
 
-	public TblAccount getTblAccount() {
-		return this.tblAccount;
+	public TblAccountModel getTblAccountModel() {
+		return this.tblAccountModel;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
-		this.tblAccount = tblAccount;
+	public void setTblAccountModel(TblAccountModel tblAccount) {
+		this.tblAccountModel = tblAccount;
 	}
 
 }

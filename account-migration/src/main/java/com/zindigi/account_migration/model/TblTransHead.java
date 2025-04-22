@@ -1,5 +1,8 @@
 package com.zindigi.account_migration.model;
 
+import com.mfs.commonservice.model.LkpChannel;
+import com.mfs.commonservice.model.LkpCurrency;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -120,12 +123,12 @@ public class TblTransHead implements Serializable {
     //bi-directional many-to-one association to TblAccount
     @ManyToOne
     @JoinColumn(name = "CR_ACCOUNT_ID")
-    private TblAccount tblAccountCr;
+    private TblAccountModel tblAccountCr;
 
     //bi-directional many-to-one association to TblAccount
     @ManyToOne
     @JoinColumn(name = "DR_ACCOUNT_ID")
-    private TblAccount tblAccountDr;
+    private TblAccountModel tblAccountDr;
 
     @Column(name = "PRODUCT_ID")
     private long productId;
@@ -452,19 +455,19 @@ public class TblTransHead implements Serializable {
         this.lkpChannel = lkpChannel;
     }
 
-    public TblAccount getTblAccountCr() {
+    public TblAccountModel getTblAccountModelCr() {
         return this.tblAccountCr;
     }
 
-    public void setTblAccountCr(TblAccount tblAccount1) {
+    public void setTblAccountModelCr(TblAccountModel tblAccount1) {
         this.tblAccountCr = tblAccount1;
     }
 
-    public TblAccount getTblAccountDr() {
+    public TblAccountModel getTblAccountModelDr() {
         return this.tblAccountDr;
     }
 
-    public void setTblAccountDr(TblAccount tblAccount2) {
+    public void setTblAccountModelDr(TblAccountModel tblAccount2) {
         this.tblAccountDr = tblAccount2;
     }
 

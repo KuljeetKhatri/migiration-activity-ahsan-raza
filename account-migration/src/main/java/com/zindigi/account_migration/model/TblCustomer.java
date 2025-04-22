@@ -1,6 +1,9 @@
 package com.zindigi.account_migration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mfs.commonservice.model.LkpSegment;
+import com.mfs.commonservice.model.LkpStatus;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,12 +17,13 @@ import java.util.List;
 @Entity
 @Table(name="TBL_CUSTOMER")
 @NamedQuery(name="TblCustomer.findAll", query="SELECT t FROM TblCustomer t")
+
 public class TblCustomer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-//    @SequenceGenerator(name="TBL_CUSTOMER_CUSTOMERID_GENERATOR", sequenceName="TBL_CUSTOMER_SEQ",allocationSize=1)
-//    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TBL_CUSTOMER_CUSTOMERID_GENERATOR")
+    @SequenceGenerator(name="TBL_CUSTOMER_CUSTOMERID_GENERATOR", sequenceName="TBL_CUSTOMER_SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TBL_CUSTOMER_CUSTOMERID_GENERATOR")
     @Column(name="CUSTOMER_ID")
     private long customerId;
 
@@ -123,10 +127,19 @@ public class TblCustomer implements Serializable {
     @Column(name = "CRP_NEXT_DATE")
     private Date crpNextDate;
 
+    @Column(name="IS_TRUSTED")
+    private String isTrusted;
+
+
+    @Temporal(TemporalType.DATE)
+    @Column(name="BVS_DATE")
+    private Date bvsDate;
+
+
     @JsonIgnore
     //bi-directional many-to-one association to TblAccount
     @OneToMany(mappedBy="tblCustomer")
-    private List<TblAccount> tblAccounts;
+    private List<TblAccountModel> tblAccountModels;
 
     @JsonIgnore
     //bi-directional many-to-one association to TblAddress
@@ -161,10 +174,7 @@ public class TblCustomer implements Serializable {
     @OneToMany(mappedBy="tblCustomer")
     private List<TblOtp> tblOtps;
 
-    @JsonIgnore
-    //bi-directional many-to-one association to TblUltraCustomer
-    @OneToMany(mappedBy="tblCustomer")
-    private List<TblUltraCustomer> tblUltraCustomers;
+
 
     @JsonIgnore
     //bi-directional many-to-one association to LkpSegment
@@ -175,8 +185,21 @@ public class TblCustomer implements Serializable {
     @Column(name="IS_KYC_VERIFIED")
     private String isKycVerified;
 
+    @Column(name = "BVS_EXEMPTION")
+    private String bvsExemption;
+
     @Column(name="LAST_KYC_DATE")
     private Date lastKycDate;
+    @Column(name = "IS_PMD_VERIFIED")
+    private String isPmdVerified;
+
+    @Column(name = "IS_DOC_VERIFIED")
+    private String isDocVerified;
+
+    //bi-directional many-to-one association to TblMiniappSession
+    @JsonIgnore
+    @OneToMany(mappedBy="tblCustomer")
+    private List<TblMiniappSession> tblMiniappSessions;
 
 
     public TblCustomer() {
@@ -447,26 +470,26 @@ public class TblCustomer implements Serializable {
         this.updateindex = updateindex;
     }
 
-    public List<TblAccount> getTblAccounts() {
-        return this.tblAccounts;
+    public List<TblAccountModel> getTblAccountModels() {
+        return this.tblAccountModels;
     }
 
-    public void setTblAccounts(List<TblAccount> tblAccounts) {
-        this.tblAccounts = tblAccounts;
+    public void setTblAccountModels(List<TblAccountModel> tblAccountModels) {
+        this.tblAccountModels = tblAccountModels;
     }
 
-    public TblAccount addTblAccount(TblAccount tblAccount) {
-        getTblAccounts().add(tblAccount);
-        tblAccount.setTblCustomer(this);
+    public TblAccountModel addTblAccount(TblAccountModel tblAccountModel) {
+        getTblAccountModels().add(tblAccountModel);
+        tblAccountModel.setTblCustomer(this);
 
-        return tblAccount;
+        return tblAccountModel;
     }
 
-    public TblAccount removeTblAccount(TblAccount tblAccount) {
-        getTblAccounts().remove(tblAccount);
-        tblAccount.setTblCustomer(null);
+    public TblAccountModel removeTblAccount(TblAccountModel tblAccountModel) {
+        getTblAccountModels().remove(tblAccountModel);
+        tblAccountModel.setTblCustomer(null);
 
-        return tblAccount;
+        return tblAccountModel;
     }
 
     public List<TblAddress> getTblAddresses() {
@@ -559,27 +582,9 @@ public class TblCustomer implements Serializable {
         return tblOtp;
     }
 
-    public List<TblUltraCustomer> getTblUltraCustomers() {
-        return this.tblUltraCustomers;
-    }
 
-    public void setTblUltraCustomers(List<TblUltraCustomer> tblUltraCustomers) {
-        this.tblUltraCustomers = tblUltraCustomers;
-    }
 
-    public TblUltraCustomer addTblUltraCustomer(TblUltraCustomer tblUltraCustomer) {
-        getTblUltraCustomers().add(tblUltraCustomer);
-        tblUltraCustomer.setTblCustomer(this);
 
-        return tblUltraCustomer;
-    }
-
-    public TblUltraCustomer removeTblUltraCustomer(TblUltraCustomer tblUltraCustomer) {
-        getTblUltraCustomers().remove(tblUltraCustomer);
-        tblUltraCustomer.setTblCustomer(null);
-
-        return tblUltraCustomer;
-    }
 
 
     public String getBirthPlaceVerified() {
@@ -629,5 +634,68 @@ public class TblCustomer implements Serializable {
 
     public void setCrpNextDate(Date crpNextDate) {
         this.crpNextDate = crpNextDate;
+    }
+
+
+    public List<TblMiniappSession> getTblMiniappSessions() {
+        return this.tblMiniappSessions;
+    }
+
+    public void setTblMiniappSessions(List<TblMiniappSession> tblMiniappSessions) {
+        this.tblMiniappSessions = tblMiniappSessions;
+    }
+
+    public TblMiniappSession addTblMiniappSession(TblMiniappSession tblMiniappSession) {
+        getTblMiniappSessions().add(tblMiniappSession);
+        tblMiniappSession.setTblCustomer(this);
+
+        return tblMiniappSession;
+    }
+
+    public TblMiniappSession removeTblMiniappSession(TblMiniappSession tblMiniappSession) {
+        getTblMiniappSessions().remove(tblMiniappSession);
+        tblMiniappSession.setTblCustomer(null);
+
+        return tblMiniappSession;
+    }
+
+    public String getIsTrusted() {
+        return isTrusted;
+    }
+
+    public void setIsTrusted(String isTrusted) {
+        this.isTrusted = isTrusted;
+    }
+
+    public String getBvsExemption() {
+        return bvsExemption;
+    }
+
+    public void setBvsExemption(String bvsExemption) {
+        this.bvsExemption = bvsExemption;
+    }
+
+    public String getIsPmdVerified() {
+        return isPmdVerified;
+    }
+
+    public void setIsPmdVerified(String isPmdVerified) {
+        this.isPmdVerified = isPmdVerified;
+    }
+
+    public String getIsDocVerified() {
+        return isDocVerified;
+    }
+
+    public void setIsDocVerified(String isDocVerified) {
+        this.isDocVerified = isDocVerified;
+    }
+
+    public Date getBvsDate() {
+        return bvsDate;
+    }
+
+    public void setBvsDate(Date bvsDate) {
+        this.bvsDate = bvsDate;
     }
 }

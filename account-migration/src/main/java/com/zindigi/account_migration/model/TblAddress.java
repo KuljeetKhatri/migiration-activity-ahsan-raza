@@ -1,5 +1,7 @@
 package com.zindigi.account_migration.model;
 
+import com.mfs.commonservice.model.LkpCity;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;

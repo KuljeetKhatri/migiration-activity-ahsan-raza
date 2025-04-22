@@ -1,6 +1,8 @@
 package com.zindigi.account_migration.dto;
 
 
+import com.mfs.commonservice.model.LkpCity;
+import com.mfs.commonservice.model.LkpStatus;
 import com.zindigi.account_migration.model.*;
 
 import javax.persistence.*;
@@ -70,7 +72,7 @@ public class TblMerchant implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccountModel;
 
 	//bi-directional many-to-one association to TblDocument
 	@ManyToOne
@@ -93,7 +95,7 @@ public class TblMerchant implements Serializable {
 	private TblDocument tblDocument4;
 
 	//bi-directional many-to-one association to TblMerchantDoc
-	@OneToMany(mappedBy="tblMerchant")
+	@OneToMany(mappedBy="tblMerchantModel")
 	private List<TblMerchantDoc> tblMerchantDocs;
 
 	//bi-directional many-to-one association to LkpSegment
@@ -225,12 +227,12 @@ public class TblMerchant implements Serializable {
 		this.lkpMonthlySale = lkpMonthlySale;
 	}
 
-	public TblAccount getTblAccount() {
-		return this.tblAccount;
+	public TblAccountModel getTblAccountModel() {
+		return this.tblAccountModel;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
-		this.tblAccount = tblAccount;
+	public void setTblAccountModel(TblAccountModel tblAccountModel) {
+		this.tblAccountModel = tblAccountModel;
 	}
 
 	public TblDocument getTblDocument1() {

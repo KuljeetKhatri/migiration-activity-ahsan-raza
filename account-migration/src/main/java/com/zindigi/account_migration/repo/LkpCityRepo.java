@@ -1,6 +1,6 @@
 package com.zindigi.account_migration.repo;
 
-import com.zindigi.account_migration.model.LkpCity;
+import com.mfs.commonservice.model.LkpCity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

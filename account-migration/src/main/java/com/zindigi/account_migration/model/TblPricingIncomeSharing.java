@@ -12,6 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name="TBL_PRICING_INCOME_SHARING")
 @NamedQuery(name="TblPricingIncomeSharing.findAll", query="SELECT t FROM TblPricingIncomeSharing t")
+
 public class TblPricingIncomeSharing implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -48,12 +49,12 @@ public class TblPricingIncomeSharing implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="INCOME_GL_ACCOUNT_ID")
-	private TblAccount tblAccount1;
+	private TblAccountModel tblAccountModel1;
 
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="WHT_GL_ACCOUNT_ID")
-	private TblAccount tblAccount2;
+	private TblAccountModel tblAccountModel2;
 
 	//bi-directional many-to-one association to TblPricingProfile
 	@ManyToOne
@@ -143,20 +144,20 @@ public class TblPricingIncomeSharing implements Serializable {
 		this.updateindex = updateindex;
 	}
 
-	public TblAccount getTblAccount1() {
-		return this.tblAccount1;
+	public TblAccountModel getTblAccountModel1() {
+		return this.tblAccountModel1;
 	}
 
-	public void setTblAccount1(TblAccount tblAccount1) {
-		this.tblAccount1 = tblAccount1;
+	public void setTblAccountModel1(TblAccountModel tblAccountModel1) {
+		this.tblAccountModel1 = tblAccountModel1;
 	}
 
-	public TblAccount getTblAccount2() {
-		return this.tblAccount2;
+	public TblAccountModel getTblAccountModel2() {
+		return this.tblAccountModel2;
 	}
 
-	public void setTblAccount2(TblAccount tblAccount2) {
-		this.tblAccount2 = tblAccount2;
+	public void setTblAccountModel2(TblAccountModel tblAccountModel2) {
+		this.tblAccountModel2 = tblAccountModel2;
 	}
 
 	public TblPricingProfile getTblPricingProfile() {

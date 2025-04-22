@@ -1,7 +1,9 @@
 package com.zindigi.account_migration.service;
 
+import com.mfs.commonservice.dto.AdditionalInformation;
+import com.mfs.commonservice.dto.Error;
+import com.mfs.commonservice.dto.Request;
 import com.zindigi.account_migration.dto.*;
-import com.zindigi.account_migration.dto.Error;
 
 import java.util.List;
 

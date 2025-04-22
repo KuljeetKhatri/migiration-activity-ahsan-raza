@@ -63,7 +63,7 @@ public class TblInsCustomerBeneficiary implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccount;
 
 	//bi-directional many-to-one association to TblInsProductPlan
 	@ManyToOne
@@ -193,11 +193,11 @@ public class TblInsCustomerBeneficiary implements Serializable {
 		this.updateindex = updateindex;
 	}
 
-	public TblAccount getTblAccount() {
+	public TblAccountModel getTblAccount() {
 		return this.tblAccount;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
+	public void setTblAccount(TblAccountModel tblAccount) {
 		this.tblAccount = tblAccount;
 	}
 

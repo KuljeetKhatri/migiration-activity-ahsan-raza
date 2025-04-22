@@ -1,6 +1,8 @@
 package com.zindigi.account_migration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mfs.commonservice.model.LkpChannel;
+import com.mfs.commonservice.model.LkpSegment;
 
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;

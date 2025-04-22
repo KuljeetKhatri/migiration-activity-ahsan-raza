@@ -17,4 +17,9 @@ public interface TblAddressRepo extends JpaRepository<TblAddress, Long> {
             "INNER JOIN LKP_ADDRESS_TYPE T ON T.ADDRESS_TYPE_ID=A.ADDRESS_TYPE_ID\n" +
             "WHERE T.ADDRESS_TYPE_CODE=:typeCode AND C.MOBILE_NO_HASH=SHA256.ENCRYPT(:mobileNumber)",nativeQuery = true)
     List<TblAddress> findByMobileNumberAndAddressTypeCode(String mobileNumber, String typeCode);
+    @Query(value = "SELECT  lp.NADRA_PROVINCE_CODE  FROM TBL_CUSTOMER A\n" +
+            "\tINNER JOIN TBL_ADDRESS E ON A.CUSTOMER_ID = E.CUSTOMER_ID\n" +
+            "\tINNER JOIN LKP_PROVINCE lp ON E.PROVINCE_ID  = lp.PROVINCE_ID\n" +
+            "\tWHERE A.CNIC_HASH = NVL(:cnic, '')  ",nativeQuery = true)
+    String findProvinceNameByCnic(String cnic);
 }

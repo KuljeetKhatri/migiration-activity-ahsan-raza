@@ -1,6 +1,6 @@
 package com.zindigi.account_migration.repo;
 
-import com.zindigi.account_migration.model.LkpAccountLevel;
+import com.mfs.commonservice.model.LkpAccountLevel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,7 +37,7 @@ public interface LkpAccountLevelRepo extends JpaRepository<LkpAccountLevel, Long
     Optional<LkpAccountLevel> findByAccountLevelCode(String accountLevelCode);
 
 
-//    LkpAccountLevel findByAccountTypeId(Long valueOf);
+//    LkpAccountLevelModel findByAccountTypeId(Long valueOf);
 
     @Query(value = "SELECT A.*\n" +
             "  FROM LKP_ACCOUNT_LEVEL A \n" +

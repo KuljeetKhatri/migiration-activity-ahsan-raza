@@ -2,50 +2,28 @@ package com.zindigi.account_migration.util;
 
 
 
+import com.mfs.commonservice.dto.McActionResponse;
+import com.mfs.commonservice.dto.McResponse;
+import com.mfs.commonservice.dto.ProcedureResponse;
+import com.mfs.commonservice.dto.TokenData;
+import com.zindigi.account_migration.model.TblCustomer;
+import com.zindigi.account_migration.model.TblTransLimit;
+
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public interface Constants {
-
-
     String logLevelInfo = "INFO";
     String logLevelExe = "EXE";
     String startingMethod = "Starting Method :: ";
     String endingMethod = "Ending Method :: ";
-    String success = "Success";
-    String LOGIN_PIN_HAS_BEEN_UPDATED_SUCCESSFULLY = "Your Login Pin Has Been Updated Successfully!";
-
-    String recordNotSaved = "Record Not Saved";
-    String recordNotUpdated = "Record Not Updated";
-    String invalidToken = "Invalid Token";
     String AUTHORIZATION = "Authorization";
-    String dataAccessException = "Data Access Exception";
-    String methodArgumentNotValidException = "Method Argument Not Valid Exception";
     String exception = "Exception";
-    String socketTimeoutException = "Socket Timeout Exception";
-    String jsonProcessingException = "Json Processing Exception";
-    String nullPointerException = "Null Pointer Exception";
-    String connectIOException = "Connect IO Exception";
     String IOException = "IO Exception";
-    String arrayIndexOutOfBoundsException = "Array Index Out Of Bounds Exception";
-    String sqlDataException = "SQL Data Exception";
-    String jsonParseException = "Json Parse Exception";
-    String classNotFoundException = "Class Not Found Exception";
-    String numberFormatException = "Number Format Exception";
-    String runtimeException = "Runtime Exception";
-    String sqlException = "SQL Exception";
-    String jsonException = "JSON Exception";
-    String sqlRecoverableException = "SQL Recoverable Exception";
-    String illegalArgumentException = "Illegal Argument Exception";
-    String classCastException = "Class Cast Exception";
-    String socketException = "Socket Exception";
     String Y = "Y";
     String N = "N";
-    String exceptionEndPoint = "/Exception";
-    String recordNotFound = "Record Not Found";
     String securityRequirement = "Bearer Authentication";
     String bearer = "Bearer";
-    String limits = "limits";
     String accessControlAllowOrigin = "Access-Control-Allow-Origin";
     String accessControlAllowMethods = "Access-Control-Allow-Methods";
     String accessControlAllowHeaders = "Access-Control-Allow-Headers";
@@ -61,24 +39,14 @@ public interface Constants {
     String equalsIgnoreCase = "N";
     String expired = "Expired";
     int seven = 7;
-    String loggerId = "PID--";
-    String pid = "PID";
-    String kafkaData = "Data---";
-    String serviceName = "servicename";
     String security = "security";
     String payload = "payload";
-    String indexName = "indexName";
-    String limitsIndex = "limits-index";
-    String acceptKey = "accept";
-    String acceptValue = "application/json";
     String logsurl = "logsurl";
     String requestData = "data";
-    String objectJsonPath = "object.json";
     String key = "jsagentmateais";
     String charsetName = "UTF-8";
     String sha = "SHA-1";
     String algorithm = "AES";
-    String padding = "AES/ECB/PKCS5PADDING";
     String secKey = "AIS_JSCASH";
     String jwtID = "ID";
     String jwtSubject = "Subject";
@@ -87,30 +55,16 @@ public interface Constants {
     String jwtExpired = "Expired";
     String jwtExpiredCheck = "Y";
     String contains = "JWT expired at";
-    String successCode = "010000";
+    TokenData TokenUnhandleException = null;
     String unhandleException = null;
+    TblTransLimit initialize = null;
     HashMap<String, String> mapUnhandleException = null;
-    String fieldValidationCode = "011001";
-    String invalidPayloadCode = "1542";
     String hostDownCode = "1544";
-    String validationFailed = "Validations Failed";
-    String getLimitProfileName = "Limit Profile Name is Required";
     String getIsActive = "Is Active is Required";
-    String getLkpAccountLevelId = "Account Level is Required";
-    String getTransLimitDetailId = "Transaction Limit Detail is Required";
-    String getTransLimitId = "Transaction Limit is Required";
-    String getLkpAgentNetworkId = "Agent Network is Required";
-    String getLkpSegmentId = "Segment is Required";
-    String getTblTransLimitId = "Transaction Limit is Required";
-    String getTransLimitConfigId = "Transaction Limit Config is Required";
-    String getTblProductId = "Product is Required";
     String id = "Id is Required";
-    String setIsActiveLimit = "N";
-    String setIsActiveLimitDetail = "Y";
     String tableName = "LKP_ACCOUNT_LEVEL";
     String formNameAccountTypeAdd = "Account Types - Add";
     String formNameAccountTypeEdit = "Account Types - Edit";
-    String requestType = "I";
     String requestTypeUpdate = "U";
     String workflowurl = "workflowurl";
     String contentType = "content-type";
@@ -120,73 +74,51 @@ public interface Constants {
     String tableNameKey = "tableName";
     String requestTypeKey = "requestType";
     String refTableIdKey = "refTableId";
+    String oldJson = "oldJson";
     String version1 = "/v1";
+    String fieldValidationCode = "011001";
+    String invalidMobileNumber = "Invalid Mobile Number";
+    String validationFailed = "Validations Failed";
+    String noValidatorSetFound = "No Validator Set Found";
+    String invalidAccountLevel = "Invalid Account Level";
+    String invalidEmail = "Invalid Email";
+    String invalidIssuenceDate = "Invalid Issuance Date";
+    String invalidChannelName = "Invalid Channel Name";
+    String ACCEPT_TERMS_AND_CONDITIONS_FIRST = "ACCEPT TERMS AND CONDITIONS FIRST";
+
     String checkaccountstatus = "/accounts/checkaccountstatus";
     String INITIATE_RTP = "/customeraccounts/initiateRtp";
-    String MERCHANTREQUEST = "/customeraccounts/request";
-    String MERCHANTNEWPAYREQUEST = "/customeraccounts/newpayrequest";
-    String accountStatusRequestInvalid = "Invalid cnic and Mobile Number";
-    String invalidMobileNumber = "Invalid Mobile Number";
-    String invalidCnic = "Invalid Cnic";
-    String accountAlreadyExist = "Account Already Exist";
     String checkblacklisting = "/accounts/checkblacklisting";
-
-
-    String cnicBlackListed = "CNIC BlackListed";
-
-    String cnicPattern = "\\d{13}";
     String mobileNumberPattern = "\\d{11}";
     String getscreenstate = "/customeraccounts/getscreenstate";
-
     String numberValidation = "\\d+";
-
     String createCustomerAndAccount = "/customeraccount/createcustomerandaccount";
-    String cnicExpired = "Cnic Expired";
-    String otpNotVerified = "Otp Not Verified";
-    String nadraRecordNotFound = "Nadra Record Not Found";
     String EMAIL_VALIDATOR = "email";
     String CNIC_VALIDATOR = "cnic";
     String mobileNoValidator = "MOBILE_NO";
     String CNIC_ISSUANCE_DATE_VALIDATOR = "cnicIssuanceDate";
     String FULL_NAME_VALIDATOR = "fullName";
-
-    String invalidEmail = "Invalid Email";
-
-    String invalidIssuenceDate = "Invalid Issuance Date";
-
-    String invalidFullName = "Invalid Name";
+    String ALPHA_VALIDATION_PATTERN = "^[A-Za-z\\s']{1,60}$";
     String not = "N";
     String yes = "Y";
     String expiryDatePattern = "yyyy-MM-dd";
     String setPin = "/customeraccounts/setpin";
-    String changePin = "/customeraccounts/changepin";
-
-    String mpinValidationFailed = "Mpin validation Failed";
+    String CHANGEPIN = "/customeraccounts/changepin";
     String MPIN_VALIDATOR = "mpin";
-    String noMpinValidatorFound = "Mpin validator Not Found";
-    String confirmPinNotMatched = "Confirm Mpin Not Matched";
-    String PinInvalid = "MPin Is Invalid";
-
     String getKyc = "/customeraccount/getkyc";
     String getkycquestions = "/customeraccount/getkycquestions";
-    String kmsDecryptSuccessCode = "5005";
-    String kmsEncryptSuccessCode = "5008";
+    String kmsDecryptSuccessCode = "0000";
+    String kmsEncryptSuccessCode = "0000";
     int kycLength = 4;
     String verifynadrakycdetail = "/customeraccount/verifynadrakycdetails";
     String updateaccountstatus = "/customeraccount/updateaccountstatus";
-    String verifykycdetail = "/verifykycdetail";
-    String statusNotFound = "Status Not Found";
-    String noAccountFound = "No Account Found";
     String activeWithoutKyc = "ACTIVE WITHOUT PIN & SECRET QUESTION";
     String clsBlocled = "CLS BLOCKED";
     String appScreenPinSetStatus = "5";
     String appScreenKycStatus = "6";
     String appScreenAccountCreatedStatus = "4";
     String appScreenAccountCreatedStatusM = "M2";
-    Object logIndexname = "account-maintance-index";
-    String noValidatorSetFound = "No Validator Set Found";
     String createAccount = "/customeraccounts/createaccount";
-    String hostDown = "Host Down";
     String step1 = "1";
     String step2 = "2";
     String l0OtpType = "ACP";
@@ -194,29 +126,19 @@ public interface Constants {
     String step3 = "3";
     String step4 = "4";
     String cnicIssuenceDateFormat = "yyyy-MM-dd";
-    String l0SegmentCode = "10072";
     String l0registrationType = "CUSTOMER";
     String step5 = "5";
-
     String step6 = "6";
     String accountActiveStatus = "ACTIVE";
-    String KycFailed = "KYC FAILED";
     Long noOfKycRetries = Long.valueOf(1);
-    String kycBlocked = "KYC BLOCKED";
     String accountBlockedStatus = "BACKOFFICE BLOCKED";
-
     String verifyOtpStep = "003";
     String updateaccountlevel = "/accounts/updateaccountlevel";
-    String invalidAccountLevel = "Invalid Account Level";
     String updateaccount = "/customeraccounts/updateaccount";
     String accountClassificationName = "INDIVIDUAL";
     String activeWithoutPin = "ACTIVE WITHOUT PIN";
-
     String accountLevelTypeWallet = "WALLET";
-
     String accountUpdatedto = "Account Updated to ";
-    String accountCreatedSucessfully = "Account Created Successfully";
-
     String logInfo = "INFO";
     String callingMethodInfo = "Calling method:: ";
     String securityVariable = "security";
@@ -224,18 +146,9 @@ public interface Constants {
     String indexNameVariable = "indexName";
     String kafkaDataVar = "Data---";
     String kafkaPidVar = "PID";
-    String recordFound = "Record Found";
-    String sessionExpired = "Session Expired";
-
-    String capitalLatterValidation = "\\p{Lu}";
     String serviceNameVar = "servicename";
-    String successVar = "Success";
-
     String requestMapping = "/v1";
     String Exception = "Exception";
-
-    public static final String SIGN = "/sign";
-
     String JWTId = "ZBOX";
     String JWTissuer = "Zindigi";
     String swaggerAuthantication = "Bearer Authentication";
@@ -264,19 +177,14 @@ public interface Constants {
     String getallvalidatorsEndPoint = "validators/getallvalidators";
     String getallkycattributesEndPoint = "kycattribute/getallkycattributes";
     String getallkycsetsEndPoint = "/kycsets/getallkycsetsWithoutfilter";
-
     String configuration = "account";
-
     String accept = "accept";
     String applicationJson = "application/json";
-
-    String searchValidation = "Select Any One Option";
     String getAccountLevelName = "Account Level Name is Required";
     String getAccountLevelId = "Account Level is Required";
     String getKycAttributesId = "Kyc Attributes is Required";
     String getKycSetHeadId = "Kyc Set Head is Required";
     String getLkpAccountClassificationId = "Account Classification is Required";
-
     String getDailyAmtLimitCr = "Daily Amount Limit Cr is Required";
     String getDailyAmtLimitDr = "Daily Amount Limit Dr is Required";
     String getMonthlyAmtLimitCr = "Monthly Amt Limit Cr is Required";
@@ -290,7 +198,6 @@ public interface Constants {
     String getYearlyTransLimitCr = "Yearly Trans Limit Cr is Required";
     String getYearlyTransLimitDr = "Yearly Trans Limit Dr is Required";
     String getMaxAmtLimit = "Max Amt Limit is Required";
-    String getMaxAmtPerTxn = "Max Amt Per Txn is Required";
     String createnewaccounttype = "/accountype/createnewaccounttype";
     String inactiveaccounttype = "/accountype/inactiveaccounttype";
     String getallaccounttypes = "/accountype/getallaccounttypes";
@@ -303,6 +210,9 @@ public interface Constants {
     String formNameKycAttributesEdit = "Kyc Attributes - Edit";
     String requestTypeSave = "I";
     String updateType = "A";
+    ProcedureResponse procUnhandleException = null;
+    McResponse resUnhandleException = null;
+    McActionResponse actUnhandleException = null;
     String setIsActiveNo = "N";
     String setIsActiveYes = "Y";
     String updateTypeKey = "updateType";
@@ -319,6 +229,8 @@ public interface Constants {
     String mcApplicableEndPoint = "/v1/management/ckeckMcApplicable";
     String mcRequestEndPoint = "/v1/management/mcRequest";
     String mcActionEndPoint = "/v1/management/mcAction";
+    TblCustomer custunhandleException = null;
+    String generalProcessingCode = "2000";
     String recordExist = "Record Already Exist";
     String getLkpAccountClassificationKyc = "Client Role Type is Required";
     String getKycSetName = "Kyc Set Name is Required";
@@ -346,15 +258,8 @@ public interface Constants {
     String getName = "Name is Required";
     String getFatherName = "Father Name is Required";
     String getDob = "DOB is Required";
-    String getAccountPurposeCode = "AccountPurposeCode is Required";
-    String getCountryCode = "CountryCode is Required";
-    String getOccupationCode = "OccupationCode is Required";
-    String getRelationshipCode = "RelationshipCode is Required";
-    String getSourceOfIncomeCode = "SourceOfIncomeCode is Required";
-    String getNokCnic = "NOK CNIC is Required";
     String getNokMobileNo = "NOK Mobile Number is Required";
     String getNokName = "NOK Name is Required";
-    String getNokRelationshipCode = "NOK Relationship Code is Required";
     String getPin = "PIN is Required";
     String saveSegment = "/segments/createsegment";
     String inactivesegment = "/segments/inactivesegment";
@@ -365,29 +270,12 @@ public interface Constants {
     String formNameSegmentEdit = "Segments - Edit";
     String getsegmentId = "segmentId is Requires";
     String getisActive = "isActive is Requires";
-    String getsegmentCode = "segmentCode is Requires";
-    String getsegmentDescr = "segmentDescr is Requires";
     String getsegmentName = "segmentName is Requires";
-    String getstatusId = "statusId is Requires";
-    String getagreementSigningDate = "agreementSigningDate is Requires";
     String getbusinessTypeId = "businessTypeId is Requires";
-    String getclientEmail = "clientEmail is Requires";
-    String getclientMobileNo = "clientMobileNo is Requires";
-    String getclientPocName = "clientPocName is Requires";
     String getregionId = "regionId is Requires";
-    String getsalaryStatus = "salaryStatus is Requires";
-    String getsalesForceId = "salesForceId is Requires";
-    String getsalesRoleDetailId = "salesRoleDetailId is Requires";
-    String getuploadAgreement = "uploadAgreement is Requires";
-    String getclientProfileName = "clientProfileName is Requires";
-    String getcompanyAddress = "companyAddress is Requires";
     String getCnic = "CNIC is Required";
     String getChannelName = "Channel Name is Required";
-    String createAccountSuccess = "HRA Account Created Successfully";
-    String createAccountFail = "HRA Account Creation Failed";
     String customer = "Customer Not Found";
-    String invalidPin = "Invalid Pin";
-    String accountExist = "HRA Account Already Exist";
     String getAppVersionCode = "App Version Code is Required";
     String getAppVersionName = "App Version is Required";
     String getDeviceInfo = "Device Info is Required";
@@ -405,82 +293,46 @@ public interface Constants {
     String getAccounttype = "Account Type is Required";
     String mobApp = "Zindigi";
     String sha256 = "SHA-256";
-    String successCodePortal = "010000";
-    String codeAlreadyExist = "011521";
-    String invalidStep = "Invalid Step No";
-    String segmentALreadyExist = "Segment Already Exist";
     String HRAstep1 = "H1";
     String HRAstep2 = "H2";
     String attributeName = "KYC Attribute Name Already Exist";
     String attributeCode = "KYC Attribute Code Already Exist";
-    String timeoutErrorCode = "Request timeout after 20 seconds.";
     String getBusinessId = "Business type is Required";
-    String invalidAccountClassification = "Invalid Account Classification";
-    String invalidChannelName = "Invalid Channel Name";
-    String invalidCurrencyCode = "Invalid Currency Code";
-    String invalidSegmentName = "Invalid Segment Name";
     String getAttributeCodeLength = "Attribute Code Max Length is 20";
     String getallAccountDetails = "/customeraccounts/getallcustomers";
     String accountDetailValidation = "Account Detail is Required";
     String updatecustomerkyc = "/customeraccounts/updatecustomerkyc";
     String accountDetailValidatorCheckerAction = "/customeraccounts/accountDetailValidatorCheckerAction";
-    String tableNameAccount = "TBL_ACCOUNT";
     String tableNameCustomer = "TBL_CUSTOMER";
-    String tableNameAddress = "TBL_ADDRESS";
     String formNameCx = "Cx Detail - Edit";
-    String accountNotFound = "No Account Found";
-    String t24AccountNotFound = "No T24 Account Found";
     String message = "message";
-    Object noQuestionSetFound = "No Question Set Found";
     String responseList = "responseList";
     String getcustomeraccountdocs = "/customeraccounts/getcustomeraccountdocs";
     String checkparentaccount = "/customeraccounts/checkparentaccount";
     String balanceConsumeError = "Consume balance before closing account";
     String closed = "CLOSED";
     String individual = "INDIVIDUAL";
-    String invalidPayload = "Invalid Payload";
-    String invalidCustomerId = "Invalid CustomerId";
     String raastLinkingRequest = "raastLinkingRequest";
     String updateCustomerKyc = "updateCustomerKyc";
     String closeAccountRequest = "closeAccountRequest";
-    String raastDeLinkingRequest = "raastDeLinkingRequest";
     String closeAccountRequestByCnic = "closeAccountRequestByCnic";
     String getDataByCustomerName = "/customeraccounts/getDataByCustomerName/{name}";
-    String recordNotFoundCode = "1300";
-
-
-    String invalidKycDetail = "Invalid Kyc Detail";
-    String appScreenKycStatusLevel0 = "6";
-    String accountLevelNameUltra = "ULTRA";
     String appScreenKycStatusUltra = "9";
     String getDataByDescrepant = "/customeraccounts/getDataByDescrepant/{customerId}";
     String getDataByBVS = "/customeraccounts/getDataByBVS/{channelId}";
     String getDataByAppVersionName = "/customeraccounts/getDataByAppVersionName/{customerId}";
-    String invalidAccountType = "Invalid Account Type";
-    String invalidAccountStatus = "Invalid Account Status";
-    String invalidRegistrationType = "Invalid Registration Type";
     String u1 = "u1";
     String verifykycquestions = "/customeraccount/verifykycquestions";
-    String generalProcessingCode = "2000";
     String generalProcessingError = "General Processing Error";
     String u2 = "u2";
     String u3 = "u3";
     String sendCustomerDocs = "/customeraccounts/sendcustomerdocs";
     String sendAttachment = "/authentication/customeraccount/sendattachement";
     String sendAttachmentRequest = "sendAttachmentRequest";
-    String noDocumentupload = "No Document Uploaded";
     String checkdocumentstatus = "/customeraccounts/checkdocumentstatus";
     String docCnicFront = "CNIC_FRONT";
     String docCnicBack = "CNIC_BACK";
     String cusVideo = "CUSTOMER_VIDEO";
-    String cnicFrontMissing = "CNIC FRONT IMAGE NOT FOUND";
-    String cnicBackMissing = "CNIC BACK IMAGE NOT FOUND";
-    String cusVideoMissing = "VIDEO NOT FOUND";
-    String invalidCountryName = "Invalid Country Name";
-    String invalidChoice = "Invalid Choice";
-    String invalidAddress = "Invalid Address";
-    String invalidFedralTaxClassificationName = "Invalid Fedral Tax Classification Name";
-    String documentUploadCheck = "Check Document Upload Status";
     String us = "US";
     String ultraDocumentUploadedStatus = "7";
     String invalidDate = "Invalid Date";
@@ -512,31 +364,16 @@ public interface Constants {
     String headerName = "Content-disposition";
     String getCXUpdateCheckerById = "/customeraccounts/getCXUpdateCheckerById/{mcRequestId}";
     String expiryTime = "PASSWORD_EXPIRY_TIME";
-    String raastLink = "3000";
-    String raastDeLink = "3002";
     String RGLOGINPIN = "3001";
-    String UCINFO = "3003";
-    String CABNUMBER = "3004";
-    String CABCNIC = "3005";
-    String accountStatement = "Customer BLB BB Statement";
-    String zindigiSimpleKaro = "Zindigi Simple Karo!";
     String accountStatementFile = "Account_Statement.pdf";
     String withInThreeMoth = "Date Within Three Month";
     String invalidFromDate = "invalidFromDate";
-    String invalidUsage = "Invalid Usage";
-    String invalidProfession = "Invalid Profession";
-    String invalidMonthlySpending = "Invalid Monthly Spending";
     String signPhoto = "SIGNATURES_PHOTOS";
-    String signatureNotUploaded = "Applied for CheckBook Signature Not present";
-    String u8 = "u8";
+    String u4 = "u4";
+    String u5 = "u5";
     String u6 = "u6";
-    String alphaNumericValidator = "ALPHANUMERIC";
-    String invalidFedralTaxClassificationNumber = "Invalid Tax Classification Number";
-    String u9 = "u9";
+    String u7 = "u7";
     String invalidToDate = "invalidToDate";
-    String permenantAddress = "PERMANENT ADDRESS";
-    String ultraAccountNotFound = "Ultra Account Not Found";
-    String ultraAccountParkedForReviewing = "Ultra Account Parked for Reviewing";
     String tick = "TICK";
     String cross = "CROSS";
     String getDataByCustomerId = "/customeraccounts/getDataByCustomerId/{customerId}";
@@ -550,34 +387,17 @@ public interface Constants {
     String getOtpPin = "OTP Pin is Required";
     String getVerifyOtpPinId = "Verify OTP Pin Id is Required";
     String getParentCnic = "Parent CNIC is Required";
-    String getParentMobileNumber = "Parent Mobile Number is Required";
     String getConfirmMpin = "Confirm MPin is Required";
     String invalidPath = "Invalid Path";
-    //    String signatureImage = "C:\\Users\\muhammad.anas\\Pictures\\Screenshots\\signature.png";
-//    String tickPath = "C:\\Users\\muhammad.anas\\Pictures\\Screenshots\\logo.png";
-//    String crossPath = "C:\\Users\\muhammad.anas\\Pictures\\Screenshots\\logo.png";
-    //String reportPath = "D:/project/Git/MFS/";
-    //    String logo = "C:\\Users\\muhammad.anas\\Pictures\\Screenshots\\logo-account.png";
     String tickPath = "/opt/wildfly/standalone/documents/jasperReport/tick.png";
     String crossPath = "/opt/wildfly/standalone/documents/jasperReport/cross.png";
     String reportPath = "/opt/wildfly/standalone/documents/jasperReport/";
     String logo = "/opt/wildfly/standalone/documents/jasperReport/logo.png";
-    String signatureImage = "/opt/wildfly/standalone/documents/jasperReport/signature.png";
-    String addChannel = "/channels/createchannel";
     String invalidChannelDescr = "Invalid Channel Description";
-    String updateChannel = "/channels/updatechannel";
-    String inactiveChannel = "/channels/inactivechannel";
-    String getChannels = "/channels/getallchannels";
-    String channelValidatorCheckerAction = "/channels/channelValidatorCheckerAction";
     String invalidActive = "Invalid IsActive";
-    String tableNameChannel = "LKP_CHANNEL";
-    String formNameChannels = "Channels";
     String invalidChannelId = "Invalid Channel Id";
     String u10 = "u10";
-    String areaNotFound = "Area Not Found";
-    String cityNotFound = "City Not Found";
     String utilityBillDocName = "UTILITY_BILL";
-    String utilityBillNotFound = "Utility Bill Not Found";
     String u11 = "u11";
     String GENERALPROCESSINGERROR = "General Processing Error";
     String createSaleRegion = "/sales/createsalesregion";
@@ -585,7 +405,6 @@ public interface Constants {
     String districtIdReq = "District Id is Required";
     String tableNameRegion = "LKP_REGION";
     String formNameRegion = "Sales Region";
-    String RegionAlreadyExist = "Region Already Exist";
     String updateSaleRegion = "/sales/updatesalesregion";
     String regionIdReq = "Region Id is Required";
     String getRegionById = "/sales/getRegionById/{regionId}";
@@ -641,22 +460,15 @@ public interface Constants {
     String inactiveSaleHirarchy = "/sales/inactivesalehierarchy";
     String STATUSAPPROVED = "AP";
     String STATUSDISCREPANT = "DC";
-    String invalidCityName = "Invalid City Name";
-    String invalidAreaCode = "Invalid Area Code";
-    String invalidStreetNo = "Invalid Street No";
-    String invalidHouseNo = "Invalid House No";
     String CREATE_AGENT_ACCOUNT = "/agentaccount/createagentaccount";
     String AGENT = "Agent";
-    String LEVEL2 = "LEVEL 2";
     String PENDING = "PENDING FOR BVS";
     String CURRENCY_NAME = "PAKISTANI RUPEES";
     String FRANCHISE = "FRANCHISE";
     String RETAILER = "RETAILER";
     String HANDLER = "HANDLER";
     String CORPORATE = "CORPORATE";
-    String FAILED = "Failed";
     String INVALID_CLASSIFICATION = "Invalid Classification";
-    String INVALID_KYC = "Invalid Kyc";
     String INVALID_PRICING_PROFILE = "Invalid Pricing Profile";
     String INVALID_PARENT_AGENT = "Invalid Parent Agent";
     String INVALID_LIMIT_PROFILE = "Invalid Limit Profile";
@@ -680,11 +492,7 @@ public interface Constants {
     String AGENT_VALIDATOR_CHECKER_ACTION = "/agentaccount/agentValidatorCheckerAction";
     String UPDATE_AGENT = "/agentaccount/updateagentaccount";
     String INVALID_AGENT = "Invalid Agent";
-
-
-    String ACCOUNT_NOT_ACTIVE = "ACCOUNT NOT ACTIVE";
     String ACCOUNT_STATUS_ACTIVE = "ACT";
-
     String GET_AGENT_BY_MC_REQUEST = "/agentaccount/getagentbymcrequestid/{mcRequestId}";
     String GET_AGENT_BY_ID = "/agentaccount/getagentbyid/{id}";
     String createGlAccount = "/createglaccount";
@@ -715,20 +523,12 @@ public interface Constants {
     String SET_C = "C";
     String SET_M = "M";
     String STATUS_PENDING = "PD";
-
-    Object AGENT_CODE = "AGENT";
+    String AGENT_CODE = "AGENT";
     String GET_PRICING_PROFILE_BY_CLASSIFICATION_ID = "/agentaccount/getpricingprofilebyclassification/{id}";
     String GET_COMMISSION_PROFILE_BY_CLASSIFICATION_ID = "/agentaccount/getcommissionprofilebyclassification/{id}";
     String GET_TRANS_LIMIT_BY_CLASSIFICATION_ID = "/agentaccount/gettranslimitbyclassification/{id}";
-
     String INVALID_COMMISSION = "Invalid Commission";
-
-    String GET_GL_ACCOUNT_BY_MC_REQUEST = "/glaccount/getagentbymcrequestid/{mcRequestId}";
     String GET_PARENT_BY_ID = "/agentaccount/getparentagent";
-    String PROFESSIONNOTFOUND = "Profession Not Found";
-    String ULTRAUSAGENOTFOUND = "Ultra Usage Not Found";
-    String MONTHLYCASHFLOWNOTFOUND = "Expected Monthly Cash Flow Not Found";
-    String ELIGIBILITY = "You are not Eligible for Minor Account";
     String INVALID_NTN = "Invalid Ntn";
     String CNIC_HASH = "Cnic Hash";
     String INVALID_CONTACT_INFORMATION = "Invalid Contact Information";
@@ -741,8 +541,6 @@ public interface Constants {
     String INVALID_DIRECTOR_DATE_ISSUE = "Invalid Director Date Of Issuance";
     String INVALID_DIRECTOR_CNIC = "Invalid Director Cnic";
     String INVALID_DIRECTOR_MOBILE_NO = "Invalid Director Mobile NO";
-    String PARENT_NOT_EXIST = "Parent Not Found";
-    String CURRENCY_NOT_FOUND = "Currency Not Found";
     String ACCOUNT_TYPE_NAME_FREELANCE = "FREELANCE";
     String CONTACT_CNIC = "contactPersonCnic";
     String CONTACT_DATE_ISSUANCE = "contactPersonCnicIssuanceDate";
@@ -753,34 +551,20 @@ public interface Constants {
     String NAME = "name";
     String ADDRESS = "address";
     String PMD_SUCESS_CODE = "0000";
-    String MINOR_ACCOUNT_EXIST = "Minor Account Exist";
     String PARENT = "PARENT ";
-    String ELIGIBILITYHRA = "You Are Not Eligible for HRA";
     String GL_REGISTRATION_TYPE = "Settlement";
     String GL_ACCOUNT_STATUS_ACTIVE = "ACTIVE";
-    String INVALID_DOB = "Invalid Date of Birth";
-    String CREATE_CAMPAIGN = "/createcampaign";
-    String INVALID_CAMPAIGN_NAME = "Invalid Campaign Name";
-    String INVALID_CAMPAIGN_START_DATE = "Invalid Campaign Start Date";
-    String INVALID_CAMPAIGN_END_DATE = "Invalid Campaign End Date";
-    String INVALID_CAMPAIGN_BUDGET = "Invalid Campaign Budget Amount";
     String INVALID_AMOUNT = "Invalid Amount";
-    String INVALID_FREQUENCY_ID = "Invalid Frequency Id";
     String UNKNOWN_METHOD = "UnknownMethod";
     String INVALID_STEP_NO = "Invalid Step Number";
-    String STEP_0 = "0";
-    String INVALID_TBS_TYPE = "Invalid TBS Type";
-    String W = "W";
     String C = "C";
     String MOBILE_NUMBER_VALIDATOR = "mobileNumber";
-
     String ALPHANUMERIC_VALIDATOR_PATTERN = "^[A-Za-z0-9\\s]*$";
     String FULL_NAME_VALIDATOR_PATTERN = "^[A-Za-z\\s']{1,60}$";
     String DATE_OF_BIRTH_VALIDATOR = "dob";
     String NAME_VALIDATOR = "name";
     String MINOR_PARENT_CNIC = "parentCnic";
     String MINOR_PARENT_MOBILE_NO = "parentMobileNumber";
-    String ACCEPT_TERMS_AND_CONDITIONS_FIRST = "ACCEPT TERMS AND CONDITIONS FIRST";
     String ENCRYPTION_FAILED = "1111111111110000000";
     String paddingCBC = "AES/CBC/PKCS5PADDING";
     byte[] IV_PARAMETER = "1234567890123456".getBytes(StandardCharsets.UTF_8);
@@ -792,13 +576,10 @@ public interface Constants {
     String getlinkedaccountdetails = "/customeraccounts/getlinkedaccountdetails";
     String GET_CALCULATE_PRICE = "/customeraccounts/getcalculatepricing";
     String checkLimits = "/customeraccounts/checklimit";
-    String mobileNoReq = "Mobile No Required";
     String SETTLE_CUSTOMER = "/customeraccounts/updatebalance";
-    String INVALID_TRASACTION_ID = "Invalid Transaction Id";
     String Z_TO_Z = "000454";
     String D = "D";
     String GETALLCUSTOMERBYID = "/customeraccounts/getcustomerbyid/{customerId}";
-
     String INVALID_CUSTOMER_ID = "Invalid Customer Id";
     String GET_ALL_CHART_OF_ACCOUNTS = "/chartofaccount/getallchartofaccounts";
     String CREATE_CHART_OF_ACCOUNT = "/chartofaccount/createchartofaccount";
@@ -817,14 +598,6 @@ public interface Constants {
     String GET_CHART_OF_ACCOUNT_BY_ID = "/chartofaccount/getchartofaccountbyid/{id}";
     String GET_CHART_OF_ACCOUNT_BY_MCREQUEST_ID = "/chartofaccount/getchartofaccountbymcrequestid/{mcRequestId}";
     String INVALID_CHART_OF_ACCOUNT_SEGMENT_VALUE = " Invalid / Empty Segment Values ";
-    String CHART_OF_ACCOUNT_SEGMENT1 = "organizationID";
-    String CHART_OF_ACCOUNT_SEGMENT2 = "branchID";
-    String CHART_OF_ACCOUNT_SEGMENT3 = "costCenterID";
-    String CHART_OF_ACCOUNT_SEGMENT4 = "glTypeID";
-    String CHART_OF_ACCOUNT_SEGMENT5 = "subCategoryID";
-    String CHART_OF_ACCOUNT_SEGMENT6 = "currencyID";
-    String CHART_OF_ACCOUNT_SEGMENT7 = "mrpCodeID";
-
     String GL_SEGMENT_ID1 = "tblGlSegment1";
     String GL_SEGMENT_ID2 = "tblGlSegment2";
     String GL_SEGMENT_ID3 = "tblGlSegment3";
@@ -832,8 +605,6 @@ public interface Constants {
     String GL_SEGMENT_ID5 = "tblGlSegment5";
     String GL_SEGMENT_ID6 = "tblGlSegment6";
     String GL_SEGMENT_ID7 = "tblGlSegment7";
-
-
     String TABLE_NAME_LKP_ORGANIZATION = "LKP_ORGANIZATION";
     String FORM_NAME_LKP_ORGANIZATION_ADD = "Organization - Add";
     String CREATE_LKP_ORGANIZATION = "/chartofaccount/createlkporganization";
@@ -844,7 +615,6 @@ public interface Constants {
     String INACTIVE_LKP_ORGANIZATION = "/chartofaccount/inactivelkporganization";
     String LKP_ORGANIZATION_CHECKER_ACTION = "/chartofaccount/lkporganizationcheckeraction";
     String INVALID_LKP_ORGANIZATION = "Invalid Or Empty Organization";
-    String INVALID_LKP_ORGANIZATION_ID = "Invalid Organization ID";
     String INVALID_LKP_ORGANIZATION_NAME = "Invalid Organization Name";
     String INVALID_LKP_ORGANIZATION_DESC = "Invalid Or Empty  Organization Description";
     String INVALID_LKP_ORGANIZATION_CODE = "Invalid Or Empty Organization Code";
@@ -852,7 +622,6 @@ public interface Constants {
     String INVALID_LKP_ORGANIZATION_COA_CODE_LENGTH = "Invalid Organization COA Code Length";
     String INVALID_LKP_ORGANIZATION_ACTIVE_STATUS = "Invalid or Empty Organization Active Status Value";
     String INVALID_LKP_ORGANIZATION_SEARCH = "Invalid or Empty Organization Search Values";
-
     String TABLE_NAME_LKP_BRANCH = "LKP_BRANCH";
     String FORM_NAME_LKP_BRANCH_ADD = "Branch - Add";
     String CREATE_LKP_BRANCH = "/chartofaccount/createlkpbranch";
@@ -862,7 +631,6 @@ public interface Constants {
     String GET_LKP_BRANCH_BY_MCREQUESTID = "/chartofaccount/getlkpbranchbymcrequestid/{mcRequestId}";
     String INACTIVE_LKP_BRANCH = "/chartofaccount/inactivelkpbranch";
     String LKP_BRANCH_CHECKER_ACTION = "/chartofaccount/lkpbranchcheckeraction";
-    String INVALID_LKP_BRANCH_ID = "Invalid Branch ID";
     String INVALID_LKP_BRANCH_NAME = "Invalid Branch Name";
     String INVALID_LKP_BRANCH_DESC = "Invalid Or Empty Branch Description";
     String INVALID_LKP_BRANCH_CODE = "Invalid Or Empty Branch Code";
@@ -870,7 +638,6 @@ public interface Constants {
     String INVALID_LKP_BRANCH_COA_CODE_LENGTH = "Invalid Branch COA Code Length";
     String INVALID_LKP_BRANCH_ACTIVE_STATUS = "Invalid or Empty Branch Active Status Value";
     String INVALID_LKP_BRANCH_SEARCH = "Invalid or Empty Branch Search Values";
-
     String TABLE_NAME_LKP_COST_CENTER = "LKP_COST_CENTER";
     String FORM_NAME_LKP_COST_CENTER_ADD = "Cost Center - Add";
     String CREATE_LKP_COST_CENTER = "/chartofaccount/createlkpcostcenter";
@@ -889,7 +656,6 @@ public interface Constants {
     String INVALID_LKP_COST_CENTER_COA_CODE_LENGTH = "Invalid Cost Center COA Code Length";
     String INVALID_LKP_COST_CENTER_ACTIVE_STATUS = "Invalid or Empty Cost Center Active Status Value";
     String INVALID_LKP_COST_CENTER_SEARCH = "Invalid or Empty Cost Center Search Values";
-
     String TABLE_NAME_LKP_GL_TYPE = "LKP_GL_TYPE";
     String FORM_NAME_LKP_GL_TYPE_ADD = "Category - Add";
     String CREATE_LKP_GL_TYPE = "/chartofaccount/createlkpgltype";
@@ -900,7 +666,6 @@ public interface Constants {
     String INACTIVE_LKP_GL_TYPE = "/chartofaccount/inactivelkpgltype";
     String LKP_GL_TYPE_CHECKER_ACTION = "/chartofaccount/lkpgltypecheckeraction";
     String INVALID_LKP_GL_TYPE = "Empty or Invalid GL type";
-    String INVALID_LKP_GL_TYPE_ID = "Invalid GL type ID";
     String INVALID_LKP_GL_TYPE_NAME = "Invalid GL Type Name";
     String INVALID_LKP_GL_TYPE_DESC = "Invalid Or Empty  GL Type Description";
     String INVALID_LKP_GL_TYPE_CODE = "Invalid Or Empty  GL Type Code";
@@ -908,7 +673,6 @@ public interface Constants {
     String INVALID_LKP_GL_TYPE_COA_CODE_LENGTH = "Invalid GL Type COA Code Length";
     String INVALID_LKP_GL_TYPE_ACTIVE_STATUS = "Invalid or Empty GL Type Active Status Value";
     String INVALID_LKP_GL_TYPE_SEARCH = "Invalid or Empty GL Type Search Values";
-
     String TABLE_NAME_LKP_SUB_CATEGORY = "LKP_SUB_CATEGORY";
     String FORM_NAME_LKP_SUB_CATEGORY_ADD = "Sub Category - Add";
     String CREATE_LKP_SUB_CATEGORY = "/chartofaccount/createlkpsubcategory";
@@ -927,7 +691,6 @@ public interface Constants {
     String INVALID_LKP_SUB_CATEGORY_COA_CODE_LENGTH = "Invalid Sub Category COA Code Length";
     String INVALID_LKP_SUB_CATEGORY_ACTIVE_STATUS = "Invalid or Empty Sub Category Active Status Value";
     String INVALID_LKP_SUB_CATEGORY_SEARCH = "Invalid or Empty Sub Category Type Search Values";
-
     String TABLE_NAME_LKP_CURRENCY = "LKP_CURRENCY";
     String FORM_NAME_LKP_CURRENCY_ADD = "Currency - Add";
     String CREATE_LKP_CURRENCY = "/chartofaccount/createlkpcurrency";
@@ -938,7 +701,6 @@ public interface Constants {
     String INACTIVE_LKP_CURRENCY = "/chartofaccount/inactivelkpcurrency";
     String LKP_CURRENCY_CHECKER_ACTION = "/chartofaccount/lkpcurrencycheckeraction";
     String INVALID_LKP_CURRENCY = "Invalid Or Empty Currency";
-    String INVALID_LKP_CURRENCY_ID = "Invalid Currency ID";
     String INVALID_LKP_CURRENCY_NAME = "Invalid Currency Name";
     String INVALID_LKP_CURRENCY_DESC = "Invalid Or Empty  Currency Description";
     String INVALID_LKP_CURRENCY_CODE = "Invalid Or Empty Currency Code";
@@ -946,8 +708,6 @@ public interface Constants {
     String INVALID_LKP_CURRENCY_COA_CODE_LENGTH = "Invalid Currency COA Code Length";
     String INVALID_LKP_CURRENCY_ACTIVE_STATUS = "Invalid or Empty Currency Active Status Value";
     String INVALID_LKP_CURRENCY_SEARCH = "Invalid or Empty Currency Search Values";
-
-
     String TABLE_NAME_LKP_MRP_CODE = "LKP_MRP_CODE";
     String FORM_NAME_LKP_MRP_CODE_ADD = "Mrp Code - Add";
     String CREATE_LKP_MRP_CODE = "/chartofaccount/createlkpmrpcode";
@@ -958,7 +718,6 @@ public interface Constants {
     String INACTIVE_LKP_MRP_CODE = "/chartofaccount/inactivelkpmrpcode";
     String LKP_MRP_CODE_CHECKER_ACTION = "/chartofaccount/lkpmrpcodecheckeraction";
     String INVALID_LKP_MRP_CODE = "Invalid MRP Code";
-    String INVALID_LKP_MRP_CODE_ID = "Invalid MRP Code ID";
     String INVALID_LKP_MRP_CODE_NAME = "Invalid MRP Code Name";
     String INVALID_LKP_MRP_CODE_DESC = "Invalid Or Empty MRP Code Description";
     String INVALID_LKP_MRP_CODE_CODE = "Invalid Or Empty MRP Code Code";
@@ -966,39 +725,29 @@ public interface Constants {
     String INVALID_LKP_MRP_CODE_COA_CODE_LENGHT = "Invalid MRPCode COA Code Length ";
     String INVALID_LKP_MRP_CODE_ACTIVE_STATUS = "Invalid or Empty MRP Code Active Status Value";
     String INVALID_LKP_MRP_CODE_SEARCH = "Invalid or Empty Mrp Code Search Values";
-
-
-    String recordInUsed = "Record is referred / Use";
-
     String tableNameUltra = "TBL_ULTRA_CUSTOMER";
     String formNameUltra = "Upgrade Customer";
-    String Configuration = "Please Add Use Case for Upgrade Account";
-    String DOCUMENT_NOT_VERIFIED = "Documents Not Verified";
     String REGION_INACTIVE = "Region Not Active";
     String REGION_CHILD_EXIST = "Can't Inactive As It Is Already Assigned";
     String INVALID_EMPLOYEE_EMAIL = "Invalid Employee Email";
-
     String UPDATEACCOUNTAPPROVALSTATUS = "/customeraccounts/updateaccountapprovalstatus";
-    String CNIC_VERFICATION = "CNIC_VERFICATION";
     String CUSTOMER_PHOTO = "CUSTOMER_PHOTO";
     String SIGNATURES_PHOTOS = "SIGNATURES_PHOTOS";
-    String SOURCE_OF_INCOME_PHOTO = "SOURCE_OF_INCOME_PHOTO";
+    String SOURCE_OF_INCOME_PHOTO = "SOURCE OF INCOME PHOTO";
     String CUSTOMER_VIDEO = "CUSTOMER_VIDEO";
     String PROOF_OF_PROFESSION = "PROOF_OF_PROFESSION";
-    String UTILITY_BILL = "UTILITY_BILL";
     String CNIC_FRONT = "CNIC_FRONT";
     String CNIC_BACK = "CNIC_BACK";
-    String PARENT_CNIC_PIC = "PARENT CNIC PIC";
     String B_FORM_PIC = "B-FORM PIC";
-    String PARENT_ID_BACK = "PARENT ID BACK";
-
     String S = "S";
     String G = "G";
     String FEE = "00003";
-    String COMMISION = "00004";
+    String PARENT_COMMISION = "00004";
+    String CHILD_COMMISION = "00012";
     String WHTF = "00005";
     String FED = "00006";
-    String WHTC = "00007";
+    String PARENT_WHTC = "00007";
+    String CHILD_WHTC = "00013";
     String WHTT = "00008";
     String TRANS_STATUS_PENDING = "P";
     String INVALID_COMMISSION_HIERARCHY = "Invalid Commission Hierarchy";
@@ -1037,29 +786,11 @@ public interface Constants {
     String getPaymentModeId = "Payment Mode is required";
     String getT24AccountLinkUpdateCheckerById = "/t24/get24accountlinkupdatecheckerbyid/{mcRequestId}";
     String getScreenStep = "Step Required";
-    String ALPHA_VALIDATION_PATTERN = "^[A-Za-z\\s']{1,60}$";
-    String ACCOUNT_PURPOSE_NAME = "accountPurposeName";
-    String OCCUPATION_NAME = "occupationName";
-    String SOURCE_OF_INCOME = "sourceOfIncomeName";
-    String ORIGINATOR_INFO = "originatorInfo";
-    String NOK_NAME = "nokName";
-    String NOK_CNIC = "nokCnic";
-    String NOK_MOBILE_NUMBER = "nokMobileNo";
-    String NOK_RELATIONSHIP_NAME = "nokRelationshipName";
     String getParentCnicIssuanceDate = "Parent Cnic Issuance Date Required";
-    String FAILED_TO_UPDATE_ACCOUNT_LEVEL = "Failed to Update Account Level";
-    String ALPHA_SYMBOL_VALIDATION_PATTERN = "^[A-Z\\&]*$";
-    String ACCOUNT_PARKED_FOR_APPROVAL = "You Are All Done. Our Team is Reviewing details. This can Take Upto 48 Hours";
     String getallpendingcustomers = "/customeraccounts/getallpendingcustomers";
-    String INVALID_STATUS = "Invalid Status";
-    String invalidTurnAroundTime = "Invalid Turn Around Time";
     String getpendingcustomerbyid = "/customeraccounts/getpendingcustomerbyid";
     String INVALID_ACCOUNT_NUMBER = "Invalid Account Number";
     String UPDATE_SEGMENT = "/customeraccount/v1/updatesegment";
-    String INVALID_DECLERATION = "Invalid Declaration";
-    String PROOF_OF_INCOME_NOT_UPLOADED = "Proof of Income Not Uploaded";
-    String ACCEPT_SELF_DECLARATION_FIRST = "Accept Self Declaration First";
-    String ACCEPT_DECLARATION_FIRST = "Accept Declaration First";
     String CHECK_AND_UPDATE_ALT_STATUS = "/customeraccount/v1/checkandupdatealtstatus";
     String GET_ULTRA_ACCOUNT_APPROVAL_REQUEST_BY_MC_REQUEST = "/customeraccounts/getcustomerbymcrequestid/{mcRequestId}";
     String TRANSACTION_FAILED = "Transaction Failed";
@@ -1070,24 +801,14 @@ public interface Constants {
     String UPDATE_BULK_MARK_UNMARK_BLACKLIST = "/customeraccounts/updatemarkunmarkblacklist";
     String INVALID_BLACKLIST_CNIC = "Empty or Null Black List CNIC";
     String INVALID_CNIC_LENGTH = "CNIC lenght Issue";
-    String BUSINESS_TYPE_NOT_FOUND = "BUSINESS TYPE NOT FOUND";
-    String MONTHLY_SALE_EXPECTED_NOT_FOUND = "MONTHLY SALE EXPECTED NOT FOUND";
-    String SELFIE_NOT_FOUND = "SELFIE NOT FOUND";
     String PROOF_OF_BUSINESS = "PROOF OF BUSINESS";
-    String PROOF_OF_BUSINESS_NOT_FOUND = "PROOF OF BUSINESS NOT FOUND";
-    String invalidBusinessName = "Invalid Business Name";
-    String INVALID_BUSINESS_TYPE_CODE = "INVALID BUSINESS TYPE CODE";
-    String INVALID_CITY_CODE = "INVALID_CITY_CODE";
-    String INVALID_MONTHLY_SALE_ECPECTED_CODE = "INVALID MONTHLY SALE EXPECTED CODE";
     String MERCHANT_KYC_CLEARED = "10";
     String FETCH_GL_BY_ACCOUNT_NO = "fetchglbyaccountno";
     String TILL_PREFIX = "385";
-    String ADDITIONAL_FIELD_REQUIRED = "Additional field is required";
     String RISK_DASHBOARD_VIEW_DATA = "/riskdashboard/view";
     String RISK_DASHBOARD_GET_DATA = "/riskdashboard/get";
     String TABLE_NAME_RISK_DASHBOARD = "TBL_RISK_DASHBOARD";
     String FORM_NAME_RISK_DASHBOARD = "Risk Dashboard";
-    String requestTypeView = "V";
     String BALANCE_BRACKETS = "All,=0,>0<500,>500<5000,>5000<25000,>25000<50000,>50000";
     String GENDER = "eunuch male,eunuch female,male,female";
     String OS_TYPE = "Both,IOS,Android";
@@ -1102,7 +823,6 @@ public interface Constants {
     String RISK_DASHBOARD_POST_DATA = "/riskdashboard/save";
     String SCHEMA_NAME = "MFS";
     String DATE_PATTERN_INVALID = "Invalid Date Pattern";
-    String INVALID_FIELD = "Field must not be null or empty";
     String RISK_DASHBOARD_GET_RS_GRAPH_DATA = "/riskdashboard/rsgraph";
     String RISK_DASHBOARD_GET_RCTS_GRAPH_DATA = "/riskdashboard/rctsgraph";
     String FORM_NAME_LKP_MRP_CODE_EDIT = "Mrp Code - Edit";
@@ -1117,18 +837,7 @@ public interface Constants {
     String STATUSAPPROVEDID = "2";
     String ELOAD = "count,amount,telco";
     String AMOUNT_VALIDATOR = "^\\d*\\.?\\d*$";
-    String REQUEST_AMOUNT = "requestAmount";
-    String PAY_LATER = "PL";
     String ZTORAASTINQUIRY = "000414";
-    String ZTORAASTRTPINQUIRY = "000415";
-    String INVALID_ACCOUNT_TITLE = "Invalid Account Title";
-    String INVALID_PAYMENT_DUE_DATE = "Invalid Payment Due Date";
-    String INVALID_ALIAS_VALUE = "Invalid Alias Value";
-    String INVALID_REQUEST_TYPE = "Invalid Request Type";
-    String INVALID_ALIAS_TYPE = "Invalid Alias Type";
-    String REQUEST_STATUS_PENDING = "P";
-    String ALIAS_TYPE_NOT_FOUND = "Alias Type Not Found";
-    String INQUIRY_ID_NOT_FOUND = "Inquiry Id Not Found";
     String GET_MERCHANT_ACCOUNT_APPROVAL_REQUEST_BY_MC_REQUEST = "/customeraccounts/getmerchantbymcrequestid/{mcRequestId}";
     String getallpendingmerchants = "/customeraccounts/getallpendingmerchants";
     String getpendingmerchantbyid = "/customeraccounts/getmerchantpendingrequestbyid/{merchantId}";
@@ -1136,8 +845,6 @@ public interface Constants {
     String TABLE_NAME_MERCHANT = "TBL_MERCHANT";
     String FORM_NAME_MERCHANT = "Merchant Form";
     String MERCHANT_CHECKER_ACTION = "/customeraccounts/merchantcheckeraction";
-    String INVALID_MERCHANT_ID = "Invalid Merchant Id";
-    String HOSTDOWNCODE = "2222";
     String RAAST_SUCESS_CODE = "00";
     String GENERATE_QR = "/customeraccounts/generateqr";
     String RAASTINQUIRYBYALIAS = "/customeraccounts/raastInquiry";
@@ -1147,114 +854,20 @@ public interface Constants {
     String TRUE = "true";
     String GET_RISK_DASHBOARD_BY_MC_REQUEST = "/agentaccount/getriskdashboardbymcrequestid/{mcRequestId}";
     String NEW_PAYMENT_REQUEST = "/customeraccounts/newpaymentrequest";
-    String INVALID_PAYMENT_MODE = "Invalid Payment Mode";
-    String INVALID_CREDITOR_IBAN = "Invalid Creditior Iban";
-    String INVALID_CREDITOR_NAME = "Invalid Creditior Name";
-    String INVALID_DEBITOR_IBAN = "Invalid Creditior Iban";
-    String INVALID_DEBITOR_NAME = "Invalid Debitor Name";
     String RECEIVED_REQUESTS = "/customeraccounts/receivedrequest";
     String RECEIVED_REQUEST_ACTION = "/customeraccounts/receivedrequestaction";
     String bformpic = "B-FORM PIC";
-    String bFormMissing = "CNIC/B-FORM PIC NOT FOUND";
     String parentCnicFront = "PARENT CNIC FRONT";
-    String parentcnicFrontMissing = "PARENT CNIC FRONT PIC NOT FOUND";
     String parentCnicBack = "PARENT CNIC BACK";
-    String parentcnicBackMissing = "PARENT CNIC FRONT PIC NOT FOUND";
     String CX_ACCOUNT_LOGS = "/search";
-
-
     String FIELD = "Invalid field: ";
-
-    String INVALID_BIC = FIELD + "BIC";
-
     String INVALID_NAME = FIELD + "Name";
-
-    String INVALID_TERMINAL_LABEL = FIELD + "Terminal Label";
-
-    String INVALID_TOWN = FIELD + "Town";
-
-    String INVALID_MCC = FIELD + "MCC";
-
-    String INVALID_ALIAS = FIELD + "Alias";
-
-    String INVALID_DBA = FIELD + "DBA";
-
-    String INVALID_PHONE_NUMBER = FIELD + "Phone Number";
-
     String INVALID_MOBILE_NUMBER = FIELD + "Mobile Number";
-
-    String INVALID_EMAIL = FIELD + "Email";
-
-    String INVALID_DEPT = FIELD + "Dept";
-
-    String INVALID_CHANNEL_TYPE = FIELD + "Channel Type";
-
-    String INVALID_WEBSITE = FIELD + "Website";
-
-    String INVALID_LONGITUDE = FIELD + "Longitude";
-
-    String INVALID_LATITUDE = FIELD + "Latitude";
-
-    String INVALID_CHANNEL_ID = FIELD + "Channel ID";
-
-    String INVALID_IBAN = FIELD + "IBAN";
-
-    String INVALID_PURPOSE_OF_TRANX = FIELD + "Purpose of Transaction";
-
-    String INVALID_TAX_ID = FIELD + "Tax ID";
-
-    String INVALID_CONTEXT_OF_TRANX = FIELD + "Context of Transaction";
-
-    String INVALID_DUE_PYBL_AMT = FIELD + "Due Payable Amount";
-
-    String INVALID_ADJUSTMENT_AMOUNT = FIELD + "Adjustment Amount";
-
-    String INVALID_ADJUSTMENT_REASON = FIELD + "Adjustment Reason";
-
-
-    String INVALID_INSTRUCTION_ID = FIELD + "Instruction ID";
-
-    String INVALID_END_TO_END_ID = FIELD + "End-to-End ID";
-
-    String INVALID_UETR = FIELD + "UETR";
-
-
-    String INVALID_BIZ_MSG_DIR = "Invalid Biz Msg Dir";
-
-    String INVALID_CREDIT_DATE_TIME = "Invalid Credit Date Time";
-
-    String INVALID_MSG_ID = "Invalid Msg ID";
-
-    String INVALID_PMT_INF_ID = "Invalid Pmt Inf ID";
-
-    String INVALID_REQ_EXECUTION_DATE_TIME = "Invalid Req Execution Date Time";
-
-    String INVALID_EXPIRY_DATE_TIME = "Invalid Expiry Date Time";
-
-    String INVALID_BILL_REFERENCE_NUMBER = "Invalid Bill Reference Number";
-
-    String INVALID_PAYMENT_INSTRUMENT_TYPE = "Invalid Payment Instrument Type";
-
-    String INVALID_AMOUNT_MODIFICATION_ALLOWED = "Invalid Amount Modification Allowed";
-
-    String INVALID_EARLY_PAYMENT_ALLOWED = "Invalid Early Payment Allowed";
-
-    String INVALID_GRANTED_PAYMENT_REQUIRED = "Invalid Granted Payment Required";
-
-
     String generateCustomerDocs = "/customeraccount/generatecustomerdocs";
-
-
-    String FAILED_TO_LINK_TO_RAAST = "Failed to Link Account To Raast";
-    String BVS_NOT_VERIFIED = "BVS Not Verified";
-
     String CREATE_LOAN_ACCOUNT = "/lms/createloanaccount";
-
     String ACCOUNT_TYPE_NOT_FOUND = "Account Type Not Found";
     String LOAN_ALREADY_CLAIMED = "Loan Already Claimed";
     String GET_LOAN_ACCOUNT_BY_CUSTOMER_ACCOUNT = "/lms/getloanaccountbycustomeraccount";
-
-
     String ACCOUNT_MAINTENANCE_CERTIFICATE = "AccountMaintenanceCertificate.jrxml";
     String ACCOUNT_MAINTENANCE_CERTIFICATE_FILE = "AMC";
     String NOC = "NOC.jrxml";
@@ -1262,32 +875,19 @@ public interface Constants {
     String ACCOUNT_NUMBER = "accountNumber";
     String LOAN_REFERNECE = "loanReference";
     String linkStatusAssignedBack = "Assigned Back";
-
     String KMS_NOT_WORKING = "Kms Is Not Working";
     String GET_ACCOUNT_BY_ACCOUNT_NUMBER = "/lms/getaccountbyaccountnumber";
     String CREATE_CUSTOMER_AND_ACCOUNT = "/lms/createCustomerAndAccount";
-    String DATA_KEY = "Data Key Already Exists";
     String INVALID_ACCOUNT_NATURE = "Invalid Account Nature";
     String UPDATE_LOAN_ACCOUNT = "/lms/updateloanaccount";
-
     String LINKED_SEGMENT = "This segment is already bind with existing Chart of Account, you cannot inactive it";
     String LINKED_CHART_OF_ACCOUNT = "This COA is already bind with existing GL, you cannot inactive it";
-
-    CharSequence ACTION_TAKEN_SCUESSFULLY = "Action against Transaction";
-
+    String ACTION_TAKEN_SCUESSFULLY = "Action against Transaction";
     String CUSTOMER_ALREADY_EXIST = "Customer Already Exist";
-
     String getMenuFiledsNamesByTab = "/customeraccounts/getMenuFiledsNamesByTab/{parentTabId}";
     String getAllMenuTabs = "/customeraccounts/getAllMenuTabs";
     String ACCOUNT_UPDATED_SUCESSFULLY = "Account updated Sucessfully";
-
-
-    String CUSTOMER_CODE = "CUST";
-
     String INVALID_APP_USER_TYPE = "Invalid App User Type";
-
-    String FAILED_TO_SEND_NOTIFICATION = "Failed to Send Notification";
-
     String SAVE_MENU_FIELDS_RIGHTS = "/customeraccounts/savemenufiledsrights";
     String getMenuFiledsRightsById = "/customeraccounts/getMenuFiledsRightsById/{menuFieldRightId}";
     String getMenuFiledsRightsCheckerById = "/customeraccounts/getMenuFiledsRightsCheckerById/{mcRequestId}";
@@ -1296,20 +896,14 @@ public interface Constants {
     String CxDetailFieldConfigurationFormNameCheckerAction = "/customeraccounts/cxDetailFieldConfigurationFormNameCheckerAction";
     String updateCxDetailFieldConfigurationFormName = "/customeraccounts/updatemenufiledsrights";
     String getAllCxRoles = "/customeraccounts/getAllCxRoles";
-
     String COLON = ":";
     String getAllCxExistingRecords = "/customeraccounts/getAllCxExistingRecords";
     String getCxEditTabsByRoleId = "/customeraccounts/getCxEditTabsByRoleId/{userId}";
     String ACCOUNT_CNINC_MOBILE_REQUIRED = "Account No / Mobile No/ Cnic is required";
-    String RECORD_NOT_FOUND_CODE = "011300";
-    String RECORD_NOT_SAVED_CODE = "011301";
-    String RECORD_NOT_UPDATED_CODE = "011302";
-    String RECORD_EXIST_CODE = "011311";
     String formNameCxMenu = "editcxmanagementchecker";
     String SAVE_CX_ROLE_ACCOUNT_STATUS = "/customeraccounts/savecxroleaccountstatus";
     String UPDATE_CX_ROLE_ACCOUNT_STATUS = "/customeraccounts/updatecxroleaccountstatus";
     String getAllCxStatuses = "/customeraccounts/getAllCxStatuses";
-    String STATUS_PENDING_NAME = "Pending";
     String getCxStatusConfigDetailIdById = "/customeraccounts/getCxStatusConfigDetailIdById/{cxStatusConfigId}";
     String getCxUserTabFieldsByUserId = "/customeraccounts/getCxUserTabFieldsByUserId";
     String mcRequestEndPointForCxStatus = "/v1/management/mcRequestForCxStatus";
@@ -1317,7 +911,6 @@ public interface Constants {
     String MOBILE_ALREADY_EXIST = "Mobile Number Already Exist";
     String NTN_ALREADY_EXIST = "Ntn Already Exist";
     String ERROR_SERVICE = " Errors: ";
-    String INVALID_ECIB_RESPONSE = "Invalid Ecib Response";
     String GENERATE_AGENT_ACCOUNT_STATEMENT = "/agentaccount/generateaccountstatement";
 
     String getCxStatusLov = "/customeraccounts/getCxStatusLov/{userId}";
@@ -1330,29 +923,18 @@ public interface Constants {
     String UPDATE_AGENT_ACCOUNT_STATUS_REQUEST = "updateAgentAccountStatusRequest";
     String CLOSE_ACCOUNT = "CLS";
     String AGENT_REQUEST = "agentOnBoardingRequest";
-    String NOT_ELIGIBLE = "Ecib Fail";
     String STAR = "*";
     String TWO = "2";
     String updateRaastLinking = "/customeraccounts/updateRaastLinking";
-    String invalidCnicExpiryDate = "Invalid Cnic Expiry Date";
     String MERCHANT = "M";
-    String invalidStateName = "Invalid State Name";
-    String INVALID_GENDER = "Invalid Gender";
     String INVALID_DATE_OF_BIRTH = "Invalid Date of Birth";
-    String INVALID_OPERATION_TYPE = "Invalid Operation Type";
     String invalidAccountId = "Invalid Account Id";
     String CUSTOMER = "C";
     String YOUR_ACCOUNT_LINKED_TO_RAAST = "Your Account Linked to Raast";
     String getStatusConfigCount = "/customeraccounts/getStatusConfigCount";
     String ALREADY_LINKED = "Raast Linked Failed Due to Already Linked With Other Account";
-
-    String DUPLICATE_UID = "[EE15 Duplicated UID]";
     String ALREADY_DELINKED = "Already Delinked";
-    String ALIAS_ALREADY_EXIST = "[EE28  Alias already exists]";
-    String CLS_FAILED = "7008";
-    String FAILED_TO_SEND_DOCUMENT = "7009";
     String CHILD_RECORD_EXIST = "Child Record Exist";
-
     String ACCOUNT_STATEMENT_TEXT = "0100";
     String ACCOUNT_STATEMENT_SUBJECT = "0102";
     String ACCOUNT_MAINTENANCE_TEXT = "0103";
@@ -1365,14 +947,12 @@ public interface Constants {
     String EMAIL_MESSAGE = "Dear XYZ,\nPlease find attachment";
     String MSISDN_VALIDATOR = "mobileNumber";
     String EMPTY = "";
-
     String WHT_REPORT = "WHT.jrxml";
     String WHT_FILE = "WHT";
     String TO_DATE = "toDate";
     String FROM_DATE = "fromDate";
     String TAX_AMOUNT = "taxAmount";
     String INVALID_FILE = "Invalid File Type";
-
     String WHT_TEXT = "0108";
     String WHT_SUBJECT = "0107";
     String STATUS_REJECTED_ID = "3";
@@ -1385,18 +965,10 @@ public interface Constants {
     String CUSTOMER_ALREADY_REGISTERED_WITH_SAME_CNIC_ON_RAAST = "Customer Already Registered With the same Cnic on Raast";
     String ALIAS_ALREADY_LINKED_WITH_OTHER_ACCOUNT = "Alias Already Linked to other Account";
     String ACCOUNT_ALREADY_LINKED_TO_OTHER_ALIAS = "Account Already Linked to other Alias";
-    String OTP_SENT_TO_MOBILE_NUMBER = "OTP has been sent on Your Registered Mobile Number";
-    String OTP_SENT_TO_EMAIL = "OTP has been sent on Your Registered Email";
     String ZTOZ = "0001";
     String VIRTUAL_CARD = "0005";
-    String INCOMINGIBFT = "0002";
-    String OUTGOINGIBFT = "0003";
-    String ZTORAAST = "0004";
-    String ZTOTELCO = "0013";
-    public static final String OLD_JSON_KEY = "oldJson";
+    String OLD_JSON_KEY = "oldJson";
     String INVALID_GL_CODE_COMBINATION = "Invalid Gl Code Combination";
-
-    //RiskDashBoard Registration Apis EndPoints
     String RISK_DASHBOARD_REG_GETEMAIL_DATA = "/riskdashboard/getemaildata";
     String RISK_DASHBOARD_REG_DISBURSMENT_DATA = "/riskdashboard/getdisbursementdata";
     String RISK_DASHBOARD_REG_CHANNEL_DATA = "/riskdashboard/getregistrationbychanneldata";
@@ -1406,18 +978,12 @@ public interface Constants {
     String RISK_DASHBOARD_REG_OS_DATA = "/riskdashboard/getostypedata";
     String RISK_DASHBOARD_RISK_ATM_DELIEVERY_DATA = "/riskdashboard/getatmdelieverydata";
     String RISK_DASHBOARD_RISK_GET_BLOCKED_ACCCOUNT_DATA = "/riskdashboard/getblockedaccountdata";
-
-
-    String GENERAL_PROCESSING_CODE = "2000";
     String GENERAL_PROCESSING_ERROR = "General Processing Error";
     String MINOR_MINIMUM_AGE = "MINOR_MINIMUM_AGE";
-
     String MOTHER_NAME_CODE = "MN";
     String BIRTH_PLACE_CODE = "BP";
     String CNIC_EXPIRY_DATE = "CED";
-
     String UPDATE_PETRO_ACCOUNT_STATUS = "/petroaccount/updatepetroaccountstatus";
-
     String GET_CONTACT_LIST = "/inviteandearn/getcontactlist";
     String EMPTY_CONTACT_LIST = "No Contact Found";
     String SUBSCRIBE_EFU_PLAN = "customeraccount/subscribeplan";
@@ -1426,14 +992,8 @@ public interface Constants {
     String PURPOSE = "others";
     String PETRO_ACCOUNT_DETAILS = "/customeraccounts/getpetroaccountdetails";
     String PETRO_ACCOUNT_STATUS_REQUEST = "petroAccountStatusRequest";
-
     String SEND_PETRO_ACCOUNT_STATEMENT = "/petroaccount/sendpetroaccountstatment";
-
     String DOWNLOAD_PETRO_ACCOUNT_STATEMENT = "/petroaccount/downloadpetrostatment";
-
-    String FAILED_SEND_ATTACHMENT = "0128";
-    String FAILED_GENERATE_PDF = "0129";
-    String VERIFY_RECEIVER_SEGMENT = "/verifyreceiversegment";
     String HOST_DOWN = "Host Down";
     String MOBILE_NOT_MATCH = "Mobile number does not match the parent's mobile number";
     String CNIC_KEY = "CNIC";
@@ -1441,26 +1001,239 @@ public interface Constants {
     String RESPONSE_KEY = "response";
     String MOBILE_KEY = "Mobile";
     String CNIC_NOT_MATCH = "CNIC does not match the parent's CNIC";
-
     String EMPTY_ACCOUNT_TYPE = "Empty Wallet or Debit Card Type";
     String WALLET = "W";
     String DEBIT_CARD = "D";
     String INVALID_ACCOUNT_TYPE = "Wallet(W) or Debit(D) Account Type Invalid";
-
     String GET_TRANSACTION_HISTORY = "/petroaccounts/gettransactionhistory";
+
+    CharSequence ACCOUNT = "/account";
+    String UPDATE_ACCOUNT_STATUS = "/lms/updateaccountstatus";
+    String invalidAccountStatus = "Invalid Account Status";
+
     String INVALID_MOBILE_NO_OR_CNIC = "Invalid Cnic Or Mobile Number";
     String EMAIL_ALREADY_EXISTS = "Email Already Exists";
-    String CONSUME_BALANCE_BEFORE_CLOSING_ACCOUNT = "Please Consume Petro Account Balance Before Account Upgradation";
+    String session_initiated_successfully = "Session initiated successfully";
+    String existing_session_is_active = "Existing session is active";
+    String failed_to_initiate_session = "Failed to initiate session: ";
+    String initiateSession = "/account/initiateSession";
+    String getminiAppInfo = "/account/getminiAppInfo";
+    String encrypytcustomerinfo = "/account/encrypytcustomerinfo";
+    String getMiniAppAuthentication = "/account/getMiniAppAuthentication";
+    String sessionResponse = "sessionResponse";
+    String miniAppInfo = "miniAppInfo";
+    String encryptedInfo = "encryptedInfo";
+    String PADDING_CBC = "AES/CBC/PKCS5PADDING";
+    String GET_MERCHANT = "/account/getmerchant/{tillNo}";
+
+    String TAG_UNTAG_PROFILE = "/customeraccounts/taguntagtrustedprofile";
+    String DAY_END_BALANCE = "/customeraccounts/getdayendbalance";
+    String ZSPIN_RESPONSE = "/submitzspinresponse";
+
+    String INVALID_ZSPIN_TYPE = "Invalid ZSpin Item Type Id";
+    String INVALID_ZSPIN_CONFIG = "Invalid ZSpin Config Id";
+    String P = "P";
+
+    String SPIN_WIN_HISTORY = "/customeraccounts/getspinwinhistory";
+    String UPDATE_EMAIL = "/customeraccount/updateemail";
+    String FORGET_PIN = "F";
+    String UPDATE_LIMITS = "/customeraccount/updatelimits";
+    String LIMIT_TYPE = "L";
+    String CHECK_ZSPIN_COUNT = "/checkzspincount";
+    String CHANNEL = "CHANNEL";
+    String SEGMENT = "SEGMENT";
+    String REG_TYPE = "REG_TYPE";
+    String ACCOUNT_LEVEL = "ACCOUNT_LEVEL";
+    String ACCOUNT_STATUS = "ACCOUNT_STATUS";
+    String CURRENCY = "CURRENCY";
+    String Error = "ERROR";
+    String ACCOUNT_TYPE = "ACCOUNT_TYPE";
+    String NEW_USER = "F";
+    String EXISTING_USER = "R";
+    String MARK_LIEN = "/marklien";
+    String UPDATE_LIEN = "/updatelien";
+    String R = "R";
+
+    String updateNadraRecord = "/customeraccount/updatenadrarecord";
+    String CREATE_HIGH_KYC_MERCHANT = "/createhighkycmerchant";
+    String TABLE_NAME_MERCHANT_ACCOUNT = "TBL_KYC_MERCHANT";
+    String FORM_NAME_MERCHANT_ACCOUNT_ADD = "Create Merchant Account";
+
+    String INVALID_DATE_FROM = "Invalid From Date Format";
+    String INVALID_DATE_TO = "Invalid To Date Format";
+    String HISTORY_FORMAT = "yyyy-MM-dd";
+    String GET_ALL_HIGH_KYC_MERCHANT = "/getallkycmerchant";
+    String GET_HIGH_KYC_MERCHANT_BY_ID = "/getkycmerchantbyid/{kycMerchantId}";
+    String UPDATE_HIGH_KYC_MERCHANT = "/updatehighkycmerchant";
+    String FORM_NAME_MERCHANT_ACCOUNT_EDIT = "Edit Merchant Account";
+    String INACTIVE_HIGH_KYC_MERCHANT = "/inactivehighkycmerchant";
+    String IS_ACTIVE = "IsActive Required";
+
+    String BVS_EXEMPTION_REQUEST = "/customeraccount/bvsexemption";
+    String TABLE_NAME_BVS_EXEMPTION = "TBL_BVS_EXEMPTION";
+    String BVS_EXEMPTION_FORM_NAME = "Bvs Exemption";
+
+    String BVS_EXEMPTION_CHECKER = "/customeraccount/updateexemptionstatus";
+    String GET_BVS_EXEMPTION_BY_ID = "/customeraccount/getbvsexemptionbyid";
+
+    String GET_ALL_AGENTS = "/agentaccount/getallagents";
+    String GET_HANDLER_BY_AGENT_ID = "/agentaccount/gethandlerbyagentid/{agentid}";
+    String UPDATE_HANDLER_LIMITS = "/agentaccount/updatehandlerlimits";
+    String HANDLER_LIMITS_CHECKER_ACTION = "/agentaccount/handlerlimitsCheckerAction";
+    String GET_HANDLER_LIMIT_MC_REQUEST_ID = "/agentaccount/handlerlimit/getmcrequestbyid/{id}";
+    String FORM_NAME_UPDATE_HANDLER_LIMIT = "Handler Limits - Update";
+    String INVALID_HANDLER_LIMITS = "Invalid Handler Limits!";
+    String INVALID_HANDLER_PER_TRANSACTION_LIMITS = "Invalid Per Transaction Limit!";
+    String INVALID_HANDLER_PER_DAY_TRANSACTION_LIMITS = "Invalid Daily Transaction Limit!";
+    String INVALID_HANDLER_PER_MONTH_TRANSACTION_LIMITS = "Invalid Monthly Transaction Limit!";
+    String INVALID_HANDLER_DEFAULT_TIME = "Invalid Default Time!";
+    String INVALID_HANDLER_SAME_PERSON_TIME = "Invalid Same Person Time!";
+
+    String INVALID_CHILD_LIMITS = "Total Handlers transaction limit exceeds parent agent limit!";
+    String KMS_DATA_EXIST = "5004";
+    String GET_HIGH_KYC_MERCHANT_DOC = "/getkycmerchantdoc/{mobileNo}";
+    String GET_ALL_HIGH_KYC_STORE = "/getallkycstore";
+    String CREATE_HIGH_KYC_STORE = "/createhighkycstore";
+    String STORE_NAME = "Store Name Required";
+    String UPDATE_HIGH_KYC_STORE = "/updatehighkycstore";
+    String INACTIVE_HIGH_KYC_STORE = "/inactivehighkycstore";
+    String TABLE_NAME_STORE_ACCOUNT = "TBL_KYC_STORE";
+    String FORM_NAME_STORE_ACCOUNT_ADD = "Create Store Account";
+    String FORM_NAME_STORE_ACCOUNT_EDIT = "Edit Store Account";
+    String GET_HIGH_KYC_STORE_BY_ID = "/getkycstorebyid/{kycStoreId}";
+    String HIGH_KYC_MERCHANT_CHECKER_ACTION = "/kycmerchantcheckeraction";
+    String CREATE_HIGH_KYC_TERMINAL = "/createhighkycterminal";
+    String TERMINAL_CNIC = "Terminal Name Required";
+    String TABLE_NAME_TERMINAL_ACCOUNT = "TBL_KYC_TERMINAL";
+    String FORM_NAME_TERMINAL_ACCOUNT_ADD = "Create Terminal Account";
+    String UPDATE_HIGH_KYC_TERMINAL = "/updatehighkycterminal";
+    String FORM_NAME_TERMINAL_ACCOUNT_EDIT = "Update Terminal Account";
+    String INACTIVE_HIGH_KYC_TERMINAL = "/inactivehighkycterminal";
+    String HIGH_KYC_STORE_CHECKER_ACTION = "/kycstorecheckeraction";
+    String GET_HIGH_KYC_TERMINAL_BY_ID = "/getkycterminalbyid/{kycTerminalId}";
+    String GET_ALL_HIGH_KYC_TERMINAL = "/getallkycterminal";
+    String GET_HIGH_KYC_MERCHANT_BY_CNIC = "/getkycmerchantbycnic/{cnic}";
+    String GET_HIGH_KYC_STORE_BY_SELLERCODE = "/getkycstorebysellercode/{sellerCode}";
+    String PAIR_MATCHING = "/customeraccounts/pairmatching";
+    String PMD_PRODUCT_CODE = "PMD_PRODUCT_CODE";
+    String INVALID_PRODUCT_CODE = "Invalid Product Code";
+    String GET_ALL_BVS_EXEMPTION_REQUESTS = "/customeraccounts/getallbvsexemptionrequests";
+    String INVALID_STATUS_ID = "Invalid Status Id";
+    String BVS_SERVICE_NAME = "BVS";
+    String BIO_SERVICE_NAME = "BIO";
+    String RESET_PIN = "/customeraccount/resetpin";
+    String AUTHENTICATION = "/authentication";
+    String MESSAGE_KEY = "MESSAGE_KEY";
+    String OBJECT_KEY = "OBJECT_KEY";
+    String EMAIL = "Email";
+    String MOBILE = "Mobile";
+    String ACTIVE = "A";
+    String NOT_VERIFIED = "N";
+    String VERIFIED = "Y";
+    String OTP_RETRIES_EXPIRED = "R";
+    String OTP_TIME_EXPIRED = "T";
+    String OTP = "OTP";
+    String INVALID_EMAIL = "Invalid Email";
+    String EMAIL_PATTERN = "^(.+)@(.+)$";
+    String INVALID_OTP = "Invalid Otp";
+    String NUMBER_VALIDATION = "\\d+";
+    String CAPITAL_LATTER_VALIDATION = "[A-Z]+";
+    String GENERATE_OTP = "/generateotp";
+    String GENERATE_EMAIL_OTP = "/generateemailotp";
+    String VERIFYOTP = "/verifyotp";
+    String VERIFYEMAILOTP = "/verifyemailotp";
+    String GENERATEEMAILOTPWITHOUTTOKEN = "/generateemailotpwithouttoken";
+    String VERIFYEMAILOTPWITHOUTTOKEN = "/verifyemailotpwithouttoken";
+    String OTP_MESSAGE_1 = "User Verification Code is : <code> ";
+    String GET_ULTRA_SCREEN_STATE = "/customeraccounts/getultrascreenstate";
+    String INVALID_ACCOUNT_LEVEL_CODE = "Invalid Account Level Code";
+    String UPDATE_ULTRA_ACCOUNT = "/customeraccounts/updateultraaccount";
+    String COVALENT_THRESHHOLD = "COVALENT_THRESH_HOLD";
+    String IS_SUCCESS = "IS_SUCCESS";
+    String INVALID_THRESH_HOLD = "Invalid Thresh Hold";
+    String INVALID_SEGMENT_CODE = "Invalid Segment Code";
+    String KMS_RECORD_EXIST = "1001";
+    String HIGH_KYC_TERMINAL_CHECKER_ACTION = "/kycterminalcheckeraction";
+    String T = "T";
+    String TABLE_NAME_ACCOUNT_UPGRADE = "TBL_ACCOUNT_UPGRADE";
+    String ACCOUNT_UPGRADE_FORM_NAME = "ACCOUNT_UPGRADE";
+    String RESPONSE_CODE_KEY = "RESPONSE_CODE_KEY";
+
+    String COOLINGOFF_TIME = "COOLINGOFF_TIME";
+    String NADRA_UPDATE_TYPE_BVS = "B";
+    String UPDATE_MERCHANT_ACCOUNT = "/customeraccounts/updatemerchantaaccount";
+    String MERCHANT_UPGRADE_FORM_NAME = "MERCHANT_UPGRADE";
+
+
+    String GET_CUSTOMER_DETAILS = "/customeraccounts/getcustomerdetails";
+
     String IBAN = "iban";
     String ACCOUNT_OPENING_DATE = "accountOpeningDate";
     String REF_NUMBER = "refNo";
-
-    String ALREADY_SAME_STATUS = "The account is already in its current status and cannot be updated to the same status again.";
-    String ALREADY_BLACKlISTED = "Already Blacklisted";
-    String ALREADY_SAME_SEGMENT = "The customer segment is already the same and cannot be updated again.";
-    String ACCOUNT_CLOSED = "4050";
-    String NO_ACCOUNT_FOUND = "1513";
+    String DOWNGRADE_ACCOUNT = "/customeraccounts/downgradeaccount";
+    String invalidAccountCode = "Invalid Account Code";
+    String invalidCnic = "Invalid Cnic";
+    String invalidMobileNo = "Invalid Mobile No";
+    String formNameDowngradeAccount = "Downgrade Account CX - Edit";
+    String downgradeAccountCheckerAction = "/customeraccounts/downgradeAccountCheckerAction";
+    String SUBMIT_CUSTOMER_KYC = "/customeraccounts/submitcustomerkyc";
+    String SUBMIT_CUSTOMER_KYC_CHECKER_ACTION = "/customeraccounts/checkeractionsubmitcustomerkyc";
+    String getLienHistory = "/customeraccounts/getlienhistory/{accountId}";
     String formNameCxLien = "LIEN CX - Edit";
-    String R = "R";
-    String ACCOUNT_NOT_EXIST = "1130";
+    String formNameCxKyc = "KYC CX - Edit";
+    String formNameCxPmd = "PMD CX - Edit";
+
+    String getCustomerkycquestions = "/customeraccount/getcustomerkycquestions";
+
+    String KYC_RECORD = "kycRecord";
+
+    String INVALID_MOBILE = "Invalid Mobile Number!";
+    String INVALID_NETWORK_ID = "Invalid Network Id!";
+
+    String UPDATE_MOBILE_NETWORK = "/customeraccounts/updatemobilenetwork";
+    String GET_CUSTOMER_TRANSACTION_HISTORY = "/customeraccounts/gettransactionhistory";
+    String CUSTOMER_TOGGLE_SECURITY = "/customeraccounts/togglesecurity";
+
+    String EMAIL_OTP = "00";
+    String SMS_OTP = "01";
+    String MPIN = "02";
+    String INVALID_OTP_TYPE = "Invalid OTP Type!";
+
+    String VERIFY_PMD = "/customeraccounts/verifypmd";
+    String VERIFY_PMD_CHECKER_ACTION = "/customeraccounts/checkeractionverifypmd";
+    String UPDATE_EMAIL_SUBJECT = "Confirmation of Email Address Update";
+    String UPDATE_EMAIL_TEXT = "Dear Customer,\n" +
+            "\n" +
+            "Your email address has been updated successfully.";
+    String STATUS_REQUIRED = "Status is Required";
+    String FILE_NAME_REQUIRED = "File Name Required";
+    String SELECT_ANY_ONE_OPTION="SELECT ANY ONE OPTION";
+    String INVALID_MC_REQUEST_ID = "Invalid Mc Request Id";
+    String INVALID_MC_PENDING_REQUEST_ID = "Invalid Mc Pending Request Id";
+    String INVALID_ACTION_ID = "Invalid Action Id";
+    String INVALID_CHECKER_ID = "Invalid Checker Id";
+    String ONE = "1";
+    String MERCHANT_KYC = "MKYC";
+    String ACTION_ALREADY_TAKEN_AGAINST_PENDING_ID ="Action Already Taken Against Mc Pending Id : " ;
+    String u8 = "u8";
+    String WINDOWS_FOLDER_PATH = "C:\\ZBOXDOC";
+    String VRG_PRIVATE_KEY = "VRG_PRIVATE_KEY";
+    String VRG = "/customeraccounts/vrg";
+    String INVALID_AGENT_ID = "Invalid Agent Id";
+    String INVALID_ACCOUNT_CLASSIFICATION = "Invalid Accont Classification";
+    String INVALID_USER_ID = "Invalid User Id";
+    String INVALID_PAGE = "Invalid Page";
+    String INVALID_SIZE = "Invalid Size";
+    String UPDATE_DISCRIPENCIES ="/customeraccounts/updatediscrepent" ;
+    String VERIFIED_STATUS = "VERIFIED";
+
+    String NOT_VERIFIED_STATUS="NOT_VERIFIED";
+    String UPDATE_DEVICE_INFO = "/customeraccount/updatedeviceinfo";
+    String DEVICE_UPDATE = "D";
+    String FIELD_APPROVED = "fieldsApproved";
+    String FIELD_REJECTED = "fieldsRejected";
+    String FIELD_DISCREPENTS = "fieldsDiscrepents";
+    String PASS = "Pass";
+    String FAIL = "Fail";
+    String THIRD_PARTY_SUCCESS_CODE = "00";
 }

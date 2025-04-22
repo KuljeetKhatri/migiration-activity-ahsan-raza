@@ -1,5 +1,7 @@
 package com.zindigi.account_migration.model;
 
+import com.mfs.commonservice.model.LkpCharge;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,6 +13,7 @@ import javax.persistence.*;/**
 @Entity
 @Table(name="TBL_TRANS_PATTERN_DETAIL")
 @NamedQuery(name="TblTransPatternDetail.findAll", query="SELECT t FROM TblTransPatternDetail t")
+
 public class TblTransPatternDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -44,12 +47,12 @@ public class TblTransPatternDetail implements Serializable {
 	//bi-directional many-to-one association to LkpCharge
 	@ManyToOne
 	@JoinColumn(name="CHARGES_ID")
-	private LkpCharge lkpCharge;
+	private com.mfs.commonservice.model.LkpCharge lkpCharge;
 
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccountModel;
 
 	//bi-directional many-to-one association to TblTransPatternHead
 	@ManyToOne
@@ -131,7 +134,7 @@ public class TblTransPatternDetail implements Serializable {
 		this.updateindex = updateindex;
 	}
 
-	public LkpCharge getLkpCharge() {
+	public com.mfs.commonservice.model.LkpCharge getLkpCharge() {
 		return this.lkpCharge;
 	}
 
@@ -139,12 +142,12 @@ public class TblTransPatternDetail implements Serializable {
 		this.lkpCharge = lkpCharge;
 	}
 
-	public TblAccount getTblAccount() {
-		return this.tblAccount;
+	public TblAccountModel getTblAccountModel() {
+		return this.tblAccountModel;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
-		this.tblAccount = tblAccount;
+	public void setTblAccountModel(TblAccountModel tblAccountModel) {
+		this.tblAccountModel = tblAccountModel;
 	}
 
 	public TblTransPatternHead getTblTransPatternHead() {
