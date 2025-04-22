@@ -66,7 +66,7 @@ public class TblInsCustomerPlan implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
 	@JsonIgnore
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccountModel;
 
 	//bi-directional many-to-one association to TblInsProductPlan
 	@ManyToOne
@@ -224,11 +224,11 @@ public class TblInsCustomerPlan implements Serializable {
 		this.tblInsProductPlan = tblInsProductPlan;
 	}
 
-	public TblAccount getTblAccount() {
-		return tblAccount;
+	public TblAccountModel getTblAccountModel() {
+		return tblAccountModel;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
-		this.tblAccount = tblAccount;
+	public void setTblAccountModel(TblAccountModel tblAccountModel) {
+		this.tblAccountModel = tblAccountModel;
 	}
 }

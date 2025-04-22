@@ -1,6 +1,10 @@
 package com.zindigi.account_migration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mfs.commonservice.model.LkpAccountClassification;
+import com.mfs.commonservice.model.LkpFeeType;
+import com.mfs.commonservice.model.LkpStatus;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,6 +18,7 @@ import java.util.List;
 @Entity
 @Table(name="TBL_PRICING_PROFILE")
 @NamedQuery(name="TblPricingProfile.findAll", query="SELECT t FROM TblPricingProfile t")
+
 public class TblPricingProfile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -85,42 +90,30 @@ public class TblPricingProfile implements Serializable {
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_CLASSIFICATION_ID")
-	private LkpAccountClassification lkpAccountClassification;
-
-	//bi-directional many-to-one association to LkpChannel
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="CHANNEL_ID")
-	private LkpChannel lkpChannel;
+	private com.mfs.commonservice.model.LkpAccountClassification lkpAccountClassification;
 
 	//bi-directional many-to-one association to LkpFeeType
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="FEE_TYPE_ID")
-	private LkpFeeType lkpFeeType;
-
-	//bi-directional many-to-one association to LkpSegment
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="SEGMENT_ID")
-	private LkpSegment lkpSegment;
+	private com.mfs.commonservice.model.LkpFeeType lkpFeeType;
 
 	//bi-directional many-to-one association to LkpStatus
 	@ManyToOne
 	@JoinColumn(name="STATUS_ID")
-	private LkpStatus lkpStatus;
+	private com.mfs.commonservice.model.LkpStatus lkpStatus;
 
 	//bi-directional many-to-one association to TblAccount
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="INCOME_GL_ACCOUNT_ID")
-	private TblAccount tblAccount1;
+	private TblAccountModel tblAccountModel1;
 
 	//bi-directional many-to-one association to TblAccount
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="PAYEE_GL_ACCOUNT_ID")
-	private TblAccount tblAccount2;
+	private TblAccountModel tblAccountModel2;
 
 	//bi-directional many-to-one association to TblPricingSlab
 	@JsonIgnore
@@ -311,7 +304,7 @@ public class TblPricingProfile implements Serializable {
 	}
 
 
-	public LkpAccountClassification getLkpAccountClassification() {
+	public com.mfs.commonservice.model.LkpAccountClassification getLkpAccountClassification() {
 		return this.lkpAccountClassification;
 	}
 
@@ -319,15 +312,7 @@ public class TblPricingProfile implements Serializable {
 		this.lkpAccountClassification = lkpAccountClassification;
 	}
 
-	public LkpChannel getLkpChannel() {
-		return this.lkpChannel;
-	}
-
-	public void setLkpChannel(LkpChannel lkpChannel) {
-		this.lkpChannel = lkpChannel;
-	}
-
-	public LkpFeeType getLkpFeeType() {
+	public com.mfs.commonservice.model.LkpFeeType getLkpFeeType() {
 		return this.lkpFeeType;
 	}
 
@@ -335,15 +320,7 @@ public class TblPricingProfile implements Serializable {
 		this.lkpFeeType = lkpFeeType;
 	}
 
-	public LkpSegment getLkpSegment() {
-		return this.lkpSegment;
-	}
-
-	public void setLkpSegment(LkpSegment lkpSegment) {
-		this.lkpSegment = lkpSegment;
-	}
-
-	public LkpStatus getLkpStatus() {
+	public com.mfs.commonservice.model.LkpStatus getLkpStatus() {
 		return this.lkpStatus;
 	}
 
@@ -351,20 +328,20 @@ public class TblPricingProfile implements Serializable {
 		this.lkpStatus = lkpStatus;
 	}
 
-	public TblAccount getTblAccount1() {
-		return this.tblAccount1;
+	public TblAccountModel getTblAccountModel1() {
+		return this.tblAccountModel1;
 	}
 
-	public void setTblAccount1(TblAccount tblAccount1) {
-		this.tblAccount1 = tblAccount1;
+	public void setTblAccountModel1(TblAccountModel tblAccountModel1) {
+		this.tblAccountModel1 = tblAccountModel1;
 	}
 
-	public TblAccount getTblAccount2() {
-		return this.tblAccount2;
+	public TblAccountModel getTblAccountModel2() {
+		return this.tblAccountModel2;
 	}
 
-	public void setTblAccount2(TblAccount tblAccount2) {
-		this.tblAccount2 = tblAccount2;
+	public void setTblAccountModel2(TblAccountModel tblAccountModel2) {
+		this.tblAccountModel2 = tblAccountModel2;
 	}
 
 	public List<TblPricingSlab> getTblPricingSlabs() {

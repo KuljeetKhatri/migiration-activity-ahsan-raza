@@ -45,4 +45,10 @@ public interface TblGlCodeCombinationRepo extends JpaRepository<TblGlCodeCombina
     Integer countChartOfAccountByIdAndCodeCombination(@Param("glCodeCombination") String chartOfAccountCode);
 
     List<TblGlCodeCombination> findAll(Specification<ChartOfAccountsRequest> chartOfAccountsRequestSpecification);
+
+    @Query(value = "SELECT G.* FROM TBL_GL_CODE_COMBINATIONS G INNER JOIN " +
+            "LKP_ACCOUNT_LEVEL L on G.GL_SEGMENT_DESCRIPTION5=L.ACCOUNT_LEVEL_NAME" +
+            " WHERE L.ACCOUNT_LEVEL_ID =:levelId",nativeQuery = true)
+    TblGlCodeCombination findTblGlCodeCombinationByAccountLevelId(@Param("levelId")long levelId);
+
 }

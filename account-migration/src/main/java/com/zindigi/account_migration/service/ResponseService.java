@@ -1,8 +1,8 @@
 package com.zindigi.account_migration.service;
 
-import com.zindigi.account_migration.model.LkpAccountType;
-import com.zindigi.account_migration.model.LkpCurrency;
-import com.zindigi.account_migration.model.TblAccount;
+import com.mfs.commonservice.model.LkpAccountType;
+import com.mfs.commonservice.model.LkpCurrency;
+import com.zindigi.account_migration.model.TblAccountModel;
 import com.zindigi.account_migration.model.TblResponseMessage;
 
 public interface ResponseService {
@@ -11,7 +11,7 @@ public interface ResponseService {
 
     LkpCurrency getLkpCurrency(String currencyCode);
 
-    TblAccount getTblAccountByAccountNumber(String accountNumber);
+    TblAccountModel getTblAccountByAccountNumber(String accountNumber);
 
 //    TblMcRequest getMcRequestCheckerById(Long mcRequestId);
 
@@ -20,4 +20,8 @@ public interface ResponseService {
     String getText(String text, String name);
 
     String getSubject(String subject);
+
+    LkpAccountType getLkpAccountTypeByCode(String accountTypeCode);
+    LkpCurrency getLkpCurrencyByCode(String currencyCode);
+
 }

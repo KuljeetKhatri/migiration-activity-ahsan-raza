@@ -1,8 +1,9 @@
 package com.zindigi.account_migration.service.Impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
-import com.zindigi.account_migration.controller.AbstarctApi;
+import com.mfs.commonservice.model.*;
+import com.mfs.commonservice.repo.*;
+import com.mfs.commonservice.util.AbstractApi;
 import com.zindigi.account_migration.dto.*;
 import com.zindigi.account_migration.model.*;
 import com.zindigi.account_migration.repo.*;
@@ -10,7 +11,6 @@ import com.zindigi.account_migration.service.L0Services;
 import com.zindigi.account_migration.service.ResponseService;
 import com.zindigi.account_migration.util.Constants;
 import com.zindigi.account_migration.util.CustomDataNotFoundException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,19 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
 @Service
 @Transactional(rollbackOn = Exception.class)
-public class L0ServiceImpl extends AbstarctApi implements L0Services {
+public class L0ServiceImpl extends AbstractApi implements L0Services {
 
-    @Autowired
+//    @Autowired
     TblAccountRepo tblAccountRepo;
-    @Autowired
+//    @Autowired
     TblNadraRepo tblNadraRepo;
     @Value("${kms.kyc.decrption.url}")
     private String kmsKycUrl;
@@ -102,13 +99,45 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
     private LkpAppUserTypeRepo lkpAppUserTypeRepo;
     @Autowired
     private TblDeviceInfoRepo tblDeviceInfoRepo;
+    public L0ServiceImpl(){}
+//    public L0ServiceImpl(TblAccountRepo tblAccountRepo,TblNadraRepo tblNadraRepo){
+//        this.tblAccountRepo = tblAccountRepo;
+//        this.tblNadraRepo = tblNadraRepo;
+//    }
+
+    public L0ServiceImpl(TblAccountRepo tblAccountRepo, TblNadraRepo tblNadraRepo, LkpSegmentRepo lkpSegmentRepo, LkpChannelRepo lkpChannelRepo, LkpAccountStatusRepo lkpAccountStatusRepo, LkpAccountTypeRepo lkpAccountTypeRepo, LkpCurrencyRepo lkpCurrencyRepo, LkpRegistrationTypeRepo lkpRegistrationTypeRepo, LkpAccountLevelRepo lkpAccountLevelRepo, TblCustomerRepo tblCustomerRepo, TblBlacklistCnicRepo tblBlacklistCnicRepo, TblDocumentRepo tblDocumentRepo, TblAccountDailyStatsRepo accountDailyStatsRepo, LkpDocStatusRepo lkpDocStatusRepo, TblUltraCustomerRepo tblUltraCustomerRepo, LkpStatusRepo lkpStatusRepo, TblAddressRepo tblAddressRepo, LkpCityRepo lkpCityRepo, TblGlCodeCombinationRepo tblGlCodeCombinationRepo, LkpAddressTypeRepo lkpAddressTypeRepo, ResponseService responseService, TblAppUserRepo tblAppUserRepo, LkpAppUserTypeRepo lkpAppUserTypeRepo, TblDeviceInfoRepo tblDeviceInfoRepo) {
+        this.tblAccountRepo = tblAccountRepo;
+        this.tblNadraRepo = tblNadraRepo;
+        this.lkpSegmentRepo = lkpSegmentRepo;
+        this.lkpChannelRepo = lkpChannelRepo;
+        this.lkpAccountStatusRepo = lkpAccountStatusRepo;
+        this.lkpAccountTypeRepo = lkpAccountTypeRepo;
+        this.lkpCurrencyRepo = lkpCurrencyRepo;
+        this.lkpRegistrationTypeRepo = lkpRegistrationTypeRepo;
+        this.lkpAccountLevelRepo = lkpAccountLevelRepo;
+        this.tblCustomerRepo = tblCustomerRepo;
+        this.tblBlacklistCnicRepo = tblBlacklistCnicRepo;
+        this.tblDocumentRepo = tblDocumentRepo;
+        this.accountDailyStatsRepo = accountDailyStatsRepo;
+        this.lkpDocStatusRepo = lkpDocStatusRepo;
+        this.tblUltraCustomerRepo = tblUltraCustomerRepo;
+        this.lkpStatusRepo = lkpStatusRepo;
+        this.tblAddressRepo = tblAddressRepo;
+        this.lkpCityRepo = lkpCityRepo;
+        this.tblGlCodeCombinationRepo = tblGlCodeCombinationRepo;
+        this.lkpAddressTypeRepo = lkpAddressTypeRepo;
+        this.responseService = responseService;
+        this.tblAppUserRepo = tblAppUserRepo;
+        this.lkpAppUserTypeRepo = lkpAppUserTypeRepo;
+        this.tblDeviceInfoRepo = tblDeviceInfoRepo;
+    }
 
     @Override
     public CheckAccountStatusResponse checkAccountStatus(CheckAccountStatusRequest checkAccountStatusRequest) {
-        List<TblAccount> tblAccount = tblAccountRepo.getAccountByMobileNumberOrCnic("checkAccountStatusRequest.getCnic()", checkAccountStatusRequest.getMobileNumber());
+        List<TblAccountModel> tblAccount = tblAccountRepo.getAccountByMobileNumberOrCnic("checkAccountStatusRequest.getCnic()", checkAccountStatusRequest.getMobileNumber());
         CheckAccountStatusResponse checkAccountStatusResponse = null;
         if (tblAccount != null && !tblAccount.isEmpty()) {
-            for (TblAccount tblAccount1 : tblAccount) {
+            for (TblAccountModel tblAccount1 : tblAccount) {
                 if (tblAccount1.getLkpAccountType().getAccountTypeName().equals(Constants.accountLevelTypeWallet)) {
                     checkAccountStatusResponse = new CheckAccountStatusResponse();
                     checkAccountStatusResponse.setCnic(checkAccountStatusRequest.getCnic());
@@ -123,7 +152,7 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
     @Override
     public String checkAccountExistance(String cnic, String mobileNumber) {
-        TblAccount tblAccount = tblAccountRepo.getAccountByMobileNumberOrCnicAndAccountType(cnic, mobileNumber, Constants.accountLevelTypeWallet);
+        TblAccountModel tblAccount = tblAccountRepo.getAccountByMobileNumberOrCnicAndAccountType(cnic, mobileNumber, Constants.accountLevelTypeWallet);
         return tblAccount == null ? Constants.not : Constants.yes;
     }
 
@@ -142,11 +171,12 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
     @Override
     public LkpChannel getChannelByName(String channelName) {
-        LkpChannel lkpChannel = lkpChannelRepo.getLkpChannelByChannelName(channelName);
-        return lkpChannel;
+//        LkpChannel lkpChannel = lkpChannelRepo.getLkpChannelByChannelName(channelName);
+//        return lkpChannel;
+        return null;
     }
 
-    @Override
+  /*  @Override
     public String saveTblUltraCustomer(CreateAccountRequest createAccountRequest, BigDecimal userId) {
         String response = null;
         TblCustomer tblCustomer = tblCustomerRepo.findByMobileNumberHash(createAccountRequest.getMobileNumber());
@@ -233,15 +263,21 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
         }
         return response;
     }
+*/
+    @Override
+    public String createAccount(SaveCustomerRequest saveCustomerRequest, TblCustomer tblCustomer, TblAccountModel tblAccount, TblNadra tblNadra, DeviceInfo deviceInfo, HttpServletRequest httpServletRequest) throws ParseException, CustomDataNotFoundException {
+        return null;
+    }
 
+/*
     @Override
     @Transactional(rollbackOn = Exception.class)
 
-    public String createAccount(SaveCustomerRequest saveCustomerRequest, TblCustomer tblCustomer, TblAccount tblAccount, TblNadra tblNadra, DeviceInfo deviceInfo, HttpServletRequest httpServletRequest) throws ParseException, CustomDataNotFoundException {
+    public String createAccount(SaveCustomerRequest saveCustomerRequest, TblCustomer tblCustomer, TblAccountModel tblAccount, TblNadra tblNadra, DeviceInfo deviceInfo, HttpServletRequest httpServletRequest) throws ParseException, CustomDataNotFoundException {
 
 
         TblCustomer tblCustomer1 = tblCustomerRepo.findByMobileNumberHash(saveCustomerRequest.getMobileNumber());
-        TblAccount tblAccount1 = tblAccountRepo.findByMobileNoHashAndAccountTypeName(saveCustomerRequest.getMobileNumber(), Constants.accountLevelTypeWallet);
+        TblAccountModel tblAccount1 = tblAccountRepo.findByMobileNoHashAndAccountTypeName(saveCustomerRequest.getMobileNumber(), Constants.accountLevelTypeWallet);
         String response;
         int result = 0;
         tblCustomer.setCreatedate(new Date());
@@ -268,8 +304,7 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
                 kmsResponse.setReserved10("");
                 Request request1 = new Request();
                 request1.setPayLoad(kmsResponse);
-                String kmsReqResp = getResponseFromPostAPI(createHeaderMapBackOffice(httpServletRequest.getHeader(Constants.AUTHORIZATION)), createPostParamBackOffice(request1), kmsKycUrl);
-                Response response1 = new Gson().fromJson(kmsReqResp, Response.class);
+                Response response1 = genericCommonService.sendRequestAndGetResponse(request1, httpServletRequest.getHeader(Constants.AUTHORIZATION), kmsKycUrl);
                 kmsResponse = new Gson().fromJson(new Gson().toJson(response1.getPayLoad()), KmsResponse.class);
                 tblCustomer.setCustomerId(Long.parseLong(saveCustomerRequest.getCustomerId()));
                 tblCustomer.setEmailHash(kmsResponse.getReserved1());
@@ -323,7 +358,7 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
                     if (tblAccount1 == null) {
                         tblAccount.setTblCustomer(tblCustomer);
-                        TblGlCodeCombination tblGlCodeCombination = tblGlCodeCombinationRepo.findTblGlCodeCombinationByAccountLevelName(tblAccount.getLkpAccountLevel().getAccountLevelName());
+                        TblGlCodeCombination tblGlCodeCombination = tblGlCodeCombinationRepo.findTblGlCodeCombinationByAccountLevelId(tblAccount.getLkpAccountLevelModel().getAccountLevelId());
                         if (tblGlCodeCombination != null) {
                             tblAccount.setAccountId(Long.parseLong(saveCustomerRequest.getAccountId()));
                             tblAccount.setActualBalance(BigDecimal.valueOf(0.0));
@@ -348,8 +383,9 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
                             tblAccount.setAppScreenStatus(Constants.appScreenAccountCreatedStatus);
                             tblAccount.setCreateuser(BigDecimal.valueOf(1L));
                             tblAccount = tblAccountRepo.saveAndFlush(tblAccount);
-                            if (tblAccount.getLkpAccountLevel().getAccountLevelName().equalsIgnoreCase(accountLevelNameZero)) {
-//                                createPetroAccount(saveCustomerRequest, tblAccount);
+                            LkpAccountLevel lkpAccountLevelModel = lkpAccountLevelRepo.findByAccountLevelCode(accountLevelNameZero).orElse(null);
+                            if (lkpAccountLevelModel != null && tblAccountModel.getLkpAccountLevelModel().getAccountLevelId() == lkpAccountLevelModel.getAccountLevelId() && !isNullOrEmpty(saveCustomerRequest.getPetroTAndCAccepted()) && saveCustomerRequest.getPetroTAndCAccepted().equalsIgnoreCase(Constants.yes)) {
+                                createPetroAccount(saveCustomerRequest, tblAccountModel);
                             }
                         } else {
                             tblAccount = tblAccount1;
@@ -357,14 +393,14 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
                         if (tblAccount != null) {
                             TblAccountDailyStat tblAccountDailyStat = null;
-                            List<TblAccount> tblAccountDailyStats = accountDailyStatsRepo.getAllByAccountId(tblAccount.getAccountId());
+                            List<TblAccountModel> tblAccountDailyStats = accountDailyStatsRepo.getAllByAccountId(tblAccount.getAccountId());
                             if (tblAccountDailyStats == null || tblAccountDailyStats.size() == 0) {
                                 tblAccountDailyStat = new TblAccountDailyStat();
                                 tblAccountDailyStat.setBalanceDisbursed(BigDecimal.valueOf(0));
                                 tblAccountDailyStat.setBalanceReceived(BigDecimal.valueOf(0));
                                 tblAccountDailyStat.setEndDayBalance(BigDecimal.valueOf(0));
                                 tblAccountDailyStat.setStartDayBalance(BigDecimal.valueOf(0));
-                                tblAccountDailyStat.setTblAccount(tblAccount);
+                                tblAccountDailyStat.setTblAccountModel(tblAccount);
                                 tblAccountDailyStat.setCreateuser(BigDecimal.valueOf(1L));
                                 tblAccountDailyStat.setCreatedate(new Date());
                                 tblAccountDailyStat.setUpdateindex(BigDecimal.valueOf(0));
@@ -457,6 +493,7 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
         return response;
     }
+*/
 
     @Transactional
     @Override
@@ -468,8 +505,8 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
     }
 
-    private void createPetroAccount(SaveCustomerRequest saveCustomerRequest, TblAccount tblAccount) throws CustomDataNotFoundException {
-        TblAccount petroAccount = new TblAccount();
+  /*  private void createPetroAccount(SaveCustomerRequest saveCustomerRequest, TblAccountModel tblAccount) throws CustomDataNotFoundException {
+        TblAccountModel petroAccount = new TblAccountModel();
         BeanUtils.copyProperties(tblAccount, petroAccount);
 
         String accountNumber = getAccountNumber(saveCustomerRequest.getCurrencyCode(), Constants.accountLevelTypeWallet);
@@ -489,7 +526,7 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
         petroAccount.setAccountId(0l);
         tblAccountRepo.saveAndFlush(petroAccount);
     }
-
+*/
 
     @Override
     public LkpRegistrationType getLkpRegistrationType(String registrationTypeName) {
@@ -517,9 +554,19 @@ public class L0ServiceImpl extends AbstarctApi implements L0Services {
 
     @Override
     public LkpCurrency getLkpCurrency(String currencyCode) {
+        return null;
+    }
+
+    @Override
+    public String saveTblUltraCustomer(CreateAccountRequest createAccountRequest, BigDecimal userId) {
+        return null;
+    }
+
+   /* @Override
+    public LkpCurrency getLkpCurrency(String currencyCode) {
         LkpCurrency lkpCurrency = lkpCurrencyRepo.findByCurrencyName(currencyCode);
         return lkpCurrency;
-    }
+    }*/
 
     @Override
     public String checkBlacklist(CheckBlacklistingRequest checkBlacklistingRequest) {

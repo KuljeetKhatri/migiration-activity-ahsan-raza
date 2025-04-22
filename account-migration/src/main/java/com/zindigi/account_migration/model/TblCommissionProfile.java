@@ -1,6 +1,9 @@
 package com.zindigi.account_migration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mfs.commonservice.model.LkpAccountClassification;
+import com.mfs.commonservice.model.LkpStatus;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -89,13 +92,13 @@ public class TblCommissionProfile implements Serializable {
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name="COMMISSION_GL_ACCOUNT_ID")
-	private TblAccount tblAccount1;
+	private TblAccountModel tblAccount1;
 
 //	bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name="WHT_GL_ACCOUNT_ID")
-	private TblAccount tblAccount2;
+	private TblAccountModel tblAccount2;
 
 	//bi-directional many-to-one association to TblCommissionSlab
 	@JsonIgnore
@@ -277,19 +280,19 @@ public class TblCommissionProfile implements Serializable {
 		this.lkpStatus = lkpStatus;
 	}
 
-	public TblAccount getTblAccount1() {
+	public TblAccountModel getTblAccountModel1() {
 		return this.tblAccount1;
 	}
 
-	public void setTblAccount1(TblAccount tblAccount1) {
+	public void setTblAccountModel1(TblAccountModel tblAccount1) {
 		this.tblAccount1 = tblAccount1;
 	}
 
-	public TblAccount getTblAccount2() {
+	public TblAccountModel getTblAccountModel2() {
 		return this.tblAccount2;
 	}
 
-	public void setTblAccount2(TblAccount tblAccount2) {
+	public void setTblAccountModel2(TblAccountModel tblAccount2) {
 		this.tblAccount2 = tblAccount2;
 	}
 

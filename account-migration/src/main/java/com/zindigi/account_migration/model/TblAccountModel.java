@@ -1,24 +1,28 @@
 package com.zindigi.account_migration.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;import java.io.Serializable;
+import com.mfs.commonservice.model.*;
+import com.mfs.commonservice.model.LkpAccountStatus;
+import com.mfs.commonservice.model.LkpChannel;
+import com.mfs.commonservice.model.LkpDaocode;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 
-/**
- * The persistent class for the TBL_ACCOUNT database table.
- */
 @Entity
 @Table(name = "TBL_ACCOUNT")
-@NamedQuery(name = "TblAccount.findAll", query = "SELECT t FROM TblAccount t")
-public class TblAccount implements Serializable {
+@NamedQuery(name = "TblAccountModel.findAll", query = "SELECT t FROM TblAccountModel t")
+public class TblAccountModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-//    @SequenceGenerator(name = "TBL_ACCOUNT_ACCOUNTID_GENERATOR", sequenceName = "TBL_ACCOUNT_SEQ", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TBL_ACCOUNT_ACCOUNTID_GENERATOR")
+    @SequenceGenerator(name = "TBL_ACCOUNT_ACCOUNTID_GENERATOR", sequenceName = "TBL_ACCOUNT_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TBL_ACCOUNT_ACCOUNTID_GENERATOR")
     @Column(name = "ACCOUNT_ID")
     private long accountId;
 
@@ -99,7 +103,6 @@ public class TblAccount implements Serializable {
     @Column(name = "WHT_APPLICABILITY")
     private String whtApplicability;
 
-
     @Column(name = "NTN_NUMBER")
     private String ntnNumber;
 
@@ -174,67 +177,62 @@ public class TblAccount implements Serializable {
 
     //bi-directional many-to-one association to TblAccountDailyStat
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount")
+    @OneToMany(mappedBy = "tblAccountModel")
     private List<TblAccountDailyStat> tblAccountDailyStats;
 
     //bi-directional many-to-one association to TblCommissionProfile
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount1")
+    @OneToMany(mappedBy = "tblAccountModel1")
     private List<TblCommissionProfile> tblCommissionProfiles1;
 
     //bi-directional many-to-one association to TblCommissionProfile
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount2")
+    @OneToMany(mappedBy = "tblAccountModel2")
     private List<TblCommissionProfile> tblCommissionProfiles2;
 
     //bi-directional many-to-one association to TblPricingIncomeSharing
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount1")
+    @OneToMany(mappedBy = "tblAccountModel1")
     private List<TblPricingIncomeSharing> tblPricingIncomeSharings1;
 
     //bi-directional many-to-one association to TblPricingIncomeSharing
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount2")
+    @OneToMany(mappedBy = "tblAccountModel2")
     private List<TblPricingIncomeSharing> tblPricingIncomeSharings2;
 
     //bi-directional many-to-one association to TblPricingProfile
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount1")
+    @OneToMany(mappedBy = "tblAccountModel1")
     private List<TblPricingProfile> tblPricingProfiles1;
 
     //bi-directional many-to-one association to TblPricingProfile
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount2")
+    @OneToMany(mappedBy = "tblAccountModel2")
     private List<TblPricingProfile> tblPricingProfiles2;
 
     //bi-directional many-to-one association to TblProductGlConfig
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount")
+    @OneToMany(mappedBy = "tblAccountModel")
     private List<TblProductGlConfig> tblProductGlConfigs;
 
     //bi-directional many-to-one association to TblTaxRegime
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount")
+    @OneToMany(mappedBy = "tblAccountModel")
     private List<TblTaxRegime> tblTaxRegimes;
-
-    //bi-directional many-to-one association to TblTransDetail
-    @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount")
-    private List<TblTransDetail> tblTransDetails;
 
     //bi-directional many-to-one association to TblTransHead
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccountCr")
+    @OneToMany(mappedBy = "tblAccountModelCr")
     private List<TblTransHead> tblTransHeads1;
 
     //bi-directional many-to-one association to TblTransHead
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccountDr")
+    @OneToMany(mappedBy = "tblAccountModelDr")
     private List<TblTransHead> tblTransHeads2;
 
     //bi-directional many-to-one association to TblTransPatternDetail
     @JsonIgnore
-    @OneToMany(mappedBy = "tblAccount")
+    @OneToMany(mappedBy = "tblAccountModel")
     private List<TblTransPatternDetail> tblTransPatternDetails;
 
     //bi-directional many-to-one association to LkpGlType
@@ -274,12 +272,11 @@ public class TblAccount implements Serializable {
     @Column(name = "OVERDRAWN_AMOUNT_THRESHOLD")
     private BigDecimal overDrawnAmountThreshold;
 
-    @Column(name="LIEN_AMOUNT")
+    @Column(name = "LIEN_AMOUNT")
     private BigDecimal lienAmount;
 
-//    //bi-directional many-to-one association to TblLienDetail
-//    @OneToMany(mappedBy="tblAccount")
-//    private List<TblLienDetail> tblLienDetails;
+    @Column(name = "IS_VRG_LINKED")
+    private String isVrgLinked;
 
     public LkpRaastAliasType getLkpRaastAliasType() {
         return lkpRaastAliasType;
@@ -289,22 +286,6 @@ public class TblAccount implements Serializable {
         this.lkpRaastAliasType = lkpRaastAliasType;
     }
 
-    public BigDecimal getLienAmount() {
-        return lienAmount;
-    }
-
-    public void setLienAmount(BigDecimal lienAmount) {
-        this.lienAmount = lienAmount;
-    }
-
-//    public List<TblLienDetail> getTblLienDetails() {
-//        return tblLienDetails;
-//    }
-//
-//    public void setTblLienDetails(List<TblLienDetail> tblLienDetails) {
-//        this.tblLienDetails = tblLienDetails;
-//    }
-
     public String getRaastAliasValue() {
         return raastAliasValue;
     }
@@ -313,7 +294,7 @@ public class TblAccount implements Serializable {
         this.raastAliasValue = raastAliasValue;
     }
 
-    public TblAccount() {
+    public TblAccountModel() {
     }
 
     public long getAccountId() {
@@ -536,8 +517,8 @@ public class TblAccount implements Serializable {
         return this.lkpAccountLevel;
     }
 
-    public void setLkpAccountLevel(LkpAccountLevel lkpAccountLevel) {
-        this.lkpAccountLevel = lkpAccountLevel;
+    public void setLkpAccountLevel(LkpAccountLevel lkpAccountLevelModel) {
+        this.lkpAccountLevel = lkpAccountLevelModel;
     }
 
     public LkpAccountStatus getLkpAccountStatus() {
@@ -614,14 +595,14 @@ public class TblAccount implements Serializable {
 
     public TblAccountDailyStat addTblAccountDailyStat(TblAccountDailyStat tblAccountDailyStat) {
         getTblAccountDailyStats().add(tblAccountDailyStat);
-        tblAccountDailyStat.setTblAccount(this);
+        tblAccountDailyStat.setTblAccountModel(this);
 
         return tblAccountDailyStat;
     }
 
     public TblAccountDailyStat removeTblAccountDailyStat(TblAccountDailyStat tblAccountDailyStat) {
         getTblAccountDailyStats().remove(tblAccountDailyStat);
-        tblAccountDailyStat.setTblAccount(null);
+        tblAccountDailyStat.setTblAccountModel(null);
 
         return tblAccountDailyStat;
     }
@@ -636,14 +617,14 @@ public class TblAccount implements Serializable {
 
     public TblCommissionProfile addTblCommissionProfiles1(TblCommissionProfile tblCommissionProfiles1) {
         getTblCommissionProfiles1().add(tblCommissionProfiles1);
-        tblCommissionProfiles1.setTblAccount1(this);
+        tblCommissionProfiles1.setTblAccountModel1(this);
 
         return tblCommissionProfiles1;
     }
 
     public TblCommissionProfile removeTblCommissionProfiles1(TblCommissionProfile tblCommissionProfiles1) {
         getTblCommissionProfiles1().remove(tblCommissionProfiles1);
-        tblCommissionProfiles1.setTblAccount1(null);
+        tblCommissionProfiles1.setTblAccountModel1(null);
 
         return tblCommissionProfiles1;
     }
@@ -658,14 +639,14 @@ public class TblAccount implements Serializable {
 
     public TblCommissionProfile addTblCommissionProfiles2(TblCommissionProfile tblCommissionProfiles2) {
         getTblCommissionProfiles2().add(tblCommissionProfiles2);
-        tblCommissionProfiles2.setTblAccount2(this);
+        tblCommissionProfiles2.setTblAccountModel2(this);
 
         return tblCommissionProfiles2;
     }
 
     public TblCommissionProfile removeTblCommissionProfiles2(TblCommissionProfile tblCommissionProfiles2) {
         getTblCommissionProfiles2().remove(tblCommissionProfiles2);
-        tblCommissionProfiles2.setTblAccount2(null);
+        tblCommissionProfiles2.setTblAccountModel2(null);
 
         return tblCommissionProfiles2;
     }
@@ -680,14 +661,14 @@ public class TblAccount implements Serializable {
 
     public TblPricingIncomeSharing addTblPricingIncomeSharings1(TblPricingIncomeSharing tblPricingIncomeSharings1) {
         getTblPricingIncomeSharings1().add(tblPricingIncomeSharings1);
-        tblPricingIncomeSharings1.setTblAccount1(this);
+        tblPricingIncomeSharings1.setTblAccountModel1(this);
 
         return tblPricingIncomeSharings1;
     }
 
     public TblPricingIncomeSharing removeTblPricingIncomeSharings1(TblPricingIncomeSharing tblPricingIncomeSharings1) {
         getTblPricingIncomeSharings1().remove(tblPricingIncomeSharings1);
-        tblPricingIncomeSharings1.setTblAccount1(null);
+        tblPricingIncomeSharings1.setTblAccountModel1(null);
 
         return tblPricingIncomeSharings1;
     }
@@ -702,14 +683,14 @@ public class TblAccount implements Serializable {
 
     public TblPricingIncomeSharing addTblPricingIncomeSharings2(TblPricingIncomeSharing tblPricingIncomeSharings2) {
         getTblPricingIncomeSharings2().add(tblPricingIncomeSharings2);
-        tblPricingIncomeSharings2.setTblAccount2(this);
+        tblPricingIncomeSharings2.setTblAccountModel2(this);
 
         return tblPricingIncomeSharings2;
     }
 
     public TblPricingIncomeSharing removeTblPricingIncomeSharings2(TblPricingIncomeSharing tblPricingIncomeSharings2) {
         getTblPricingIncomeSharings2().remove(tblPricingIncomeSharings2);
-        tblPricingIncomeSharings2.setTblAccount2(null);
+        tblPricingIncomeSharings2.setTblAccountModel2(null);
 
         return tblPricingIncomeSharings2;
     }
@@ -724,14 +705,14 @@ public class TblAccount implements Serializable {
 
     public TblPricingProfile addTblPricingProfiles1(TblPricingProfile tblPricingProfiles1) {
         getTblPricingProfiles1().add(tblPricingProfiles1);
-        tblPricingProfiles1.setTblAccount1(this);
+        tblPricingProfiles1.setTblAccountModel1(this);
 
         return tblPricingProfiles1;
     }
 
     public TblPricingProfile removeTblPricingProfiles1(TblPricingProfile tblPricingProfiles1) {
         getTblPricingProfiles1().remove(tblPricingProfiles1);
-        tblPricingProfiles1.setTblAccount1(null);
+        tblPricingProfiles1.setTblAccountModel1(null);
 
         return tblPricingProfiles1;
     }
@@ -746,14 +727,14 @@ public class TblAccount implements Serializable {
 
     public TblPricingProfile addTblPricingProfiles2(TblPricingProfile tblPricingProfiles2) {
         getTblPricingProfiles2().add(tblPricingProfiles2);
-        tblPricingProfiles2.setTblAccount2(this);
+        tblPricingProfiles2.setTblAccountModel2(this);
 
         return tblPricingProfiles2;
     }
 
     public TblPricingProfile removeTblPricingProfiles2(TblPricingProfile tblPricingProfiles2) {
         getTblPricingProfiles2().remove(tblPricingProfiles2);
-        tblPricingProfiles2.setTblAccount2(null);
+        tblPricingProfiles2.setTblAccountModel2(null);
 
         return tblPricingProfiles2;
     }
@@ -790,38 +771,16 @@ public class TblAccount implements Serializable {
 
     public TblTaxRegime addTblTaxRegime(TblTaxRegime tblTaxRegime) {
         getTblTaxRegimes().add(tblTaxRegime);
-        tblTaxRegime.setTblAccount(this);
+        tblTaxRegime.setTblAccountModel(this);
 
         return tblTaxRegime;
     }
 
     public TblTaxRegime removeTblTaxRegime(TblTaxRegime tblTaxRegime) {
         getTblTaxRegimes().remove(tblTaxRegime);
-        tblTaxRegime.setTblAccount(null);
+        tblTaxRegime.setTblAccountModel(null);
 
         return tblTaxRegime;
-    }
-
-    public List<TblTransDetail> getTblTransDetails() {
-        return this.tblTransDetails;
-    }
-
-    public void setTblTransDetails(List<TblTransDetail> tblTransDetails) {
-        this.tblTransDetails = tblTransDetails;
-    }
-
-    public TblTransDetail addTblTransDetail(TblTransDetail tblTransDetail) {
-        getTblTransDetails().add(tblTransDetail);
-        tblTransDetail.setTblAccount(this);
-
-        return tblTransDetail;
-    }
-
-    public TblTransDetail removeTblTransDetail(TblTransDetail tblTransDetail) {
-        getTblTransDetails().remove(tblTransDetail);
-        tblTransDetail.setTblAccount(null);
-
-        return tblTransDetail;
     }
 
     public List<TblTransHead> getTblTransHeads1() {
@@ -834,14 +793,14 @@ public class TblAccount implements Serializable {
 
     public TblTransHead addTblTransHeads1(TblTransHead tblTransHeads1) {
         getTblTransHeads1().add(tblTransHeads1);
-        tblTransHeads1.setTblAccountCr(this);
+        tblTransHeads1.setTblAccountModelCr(this);
 
         return tblTransHeads1;
     }
 
     public TblTransHead removeTblTransHeads1(TblTransHead tblTransHeads1) {
         getTblTransHeads1().remove(tblTransHeads1);
-        tblTransHeads1.setTblAccountCr(null);
+        tblTransHeads1.setTblAccountModelCr(null);
 
         return tblTransHeads1;
     }
@@ -856,14 +815,14 @@ public class TblAccount implements Serializable {
 
     public TblTransHead addTblTransHeads2(TblTransHead tblTransHeads2) {
         getTblTransHeads2().add(tblTransHeads2);
-        tblTransHeads2.setTblAccountDr(this);
+        tblTransHeads2.setTblAccountModelDr(this);
 
         return tblTransHeads2;
     }
 
     public TblTransHead removeTblTransHeads2(TblTransHead tblTransHeads2) {
         getTblTransHeads2().remove(tblTransHeads2);
-        tblTransHeads2.setTblAccountDr(null);
+        tblTransHeads2.setTblAccountModelDr(null);
 
         return tblTransHeads2;
     }
@@ -878,14 +837,14 @@ public class TblAccount implements Serializable {
 
     public TblTransPatternDetail addTblTransPatternDetail(TblTransPatternDetail tblTransPatternDetail) {
         getTblTransPatternDetails().add(tblTransPatternDetail);
-        tblTransPatternDetail.setTblAccount(this);
+        tblTransPatternDetail.setTblAccountModel(this);
 
         return tblTransPatternDetail;
     }
 
     public TblTransPatternDetail removeTblTransPatternDetail(TblTransPatternDetail tblTransPatternDetail) {
         getTblTransPatternDetails().remove(tblTransPatternDetail);
-        tblTransPatternDetail.setTblAccount(null);
+        tblTransPatternDetail.setTblAccountModel(null);
 
         return tblTransPatternDetail;
     }
@@ -1000,5 +959,21 @@ public class TblAccount implements Serializable {
 
     public void setOverDrawnAmountThreshold(BigDecimal overDrawnAmountThreshold) {
         this.overDrawnAmountThreshold = overDrawnAmountThreshold;
+    }
+
+    public BigDecimal getLienAmount() {
+        return lienAmount;
+    }
+
+    public void setLienAmount(BigDecimal lienAmount) {
+        this.lienAmount = lienAmount;
+    }
+
+    public String getIsVrgLinked() {
+        return isVrgLinked;
+    }
+
+    public void setIsVrgLinked(String isVrgLinked) {
+        this.isVrgLinked = isVrgLinked;
     }
 }

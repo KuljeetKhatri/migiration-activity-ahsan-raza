@@ -1,6 +1,6 @@
 package com.zindigi.account_migration.service.Impl;
 
-import com.zindigi.account_migration.controller.AbstarctApi;
+import com.mfs.commonservice.util.AbstractApi;
 import com.zindigi.account_migration.model.TblCustomer;
 import com.zindigi.account_migration.repo.TblCustomerRepo;
 import com.zindigi.account_migration.service.AccountDetailsService;
@@ -11,10 +11,17 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional(rollbackOn =Exception.class )
-public class AccountDetailsImpl extends AbstarctApi implements AccountDetailsService {
+public class AccountDetailsImpl extends AbstractApi implements AccountDetailsService {
 
-    @Autowired
+//    @Autowired
     private TblCustomerRepo tblCustomerRepo;
+
+    public AccountDetailsImpl() {
+    }
+    public AccountDetailsImpl(TblCustomerRepo tblCustomerRepo) {
+        this.tblCustomerRepo = tblCustomerRepo;
+    }
+
     @Override
     public boolean isEmailExist(String email) {
         long isExist = 0;

@@ -1,5 +1,8 @@
 package com.zindigi.account_migration.model;
 
+import com.mfs.commonservice.model.LkpCurrency;
+import com.mfs.commonservice.model.LkpStatus;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -72,7 +75,7 @@ public class TblTaxRegime implements Serializable {
 	//bi-directional many-to-one association to TblAccount
 	@ManyToOne
 	@JoinColumn(name="ACCOUNT_ID")
-	private TblAccount tblAccount;
+	private TblAccountModel tblAccount;
 
 	public TblTaxRegime() {
 	}
@@ -219,11 +222,11 @@ public class TblTaxRegime implements Serializable {
 		this.lkpStatus = lkpStatus;
 	}
 
-	public TblAccount getTblAccount() {
+	public TblAccountModel getTblAccountModel() {
 		return this.tblAccount;
 	}
 
-	public void setTblAccount(TblAccount tblAccount) {
+	public void setTblAccountModel(TblAccountModel tblAccount) {
 		this.tblAccount = tblAccount;
 	}
 

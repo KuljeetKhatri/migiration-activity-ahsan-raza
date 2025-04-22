@@ -1,6 +1,8 @@
 package com.zindigi.account_migration.model;
 
 
+import com.mfs.commonservice.model.LkpAccountClassification;
+import com.mfs.commonservice.model.LkpStatus;
 import com.zindigi.account_migration.dto.AddressInfo;
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;

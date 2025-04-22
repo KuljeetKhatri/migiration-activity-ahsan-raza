@@ -48,7 +48,7 @@ public class LkpRegistrationType implements Serializable {
 
 	//bi-directional many-to-one association to TblAccount
 	@OneToMany(mappedBy="lkpRegistrationType")
-	private List<TblAccount> tblAccounts;
+	private List<TblAccountModel> tblAccounts;
 
 
 
@@ -135,23 +135,23 @@ public class LkpRegistrationType implements Serializable {
 		this.updateindex = updateindex;
 	}
 
-	public List<TblAccount> getTblAccounts() {
+	public List<TblAccountModel> getTblAccountsModel() {
 		return this.tblAccounts;
 	}
 
-	public void setTblAccounts(List<TblAccount> tblAccounts) {
+	public void setTblAccountsModel(List<TblAccountModel> tblAccounts) {
 		this.tblAccounts = tblAccounts;
 	}
 
-	public TblAccount addTblAccount(TblAccount tblAccount) {
-		getTblAccounts().add(tblAccount);
+	public TblAccountModel addTblAccountModel(TblAccountModel tblAccount) {
+		getTblAccountsModel().add(tblAccount);
 		tblAccount.setLkpRegistrationType(this);
 
 		return tblAccount;
 	}
 
-	public TblAccount removeTblAccount(TblAccount tblAccount) {
-		getTblAccounts().remove(tblAccount);
+	public TblAccountModel removeTblAccountModel(TblAccountModel tblAccount) {
+		getTblAccountsModel().remove(tblAccount);
 		tblAccount.setLkpRegistrationType(null);
 
 		return tblAccount;

@@ -1,6 +1,7 @@
 package com.zindigi.account_migration.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mfs.commonservice.model.*;
 import com.zindigi.account_migration.dto.*;
 import com.zindigi.account_migration.model.*;
 import com.zindigi.account_migration.util.CustomDataNotFoundException;
@@ -37,6 +38,6 @@ public interface L0Services {
 
     String saveTblUltraCustomer(CreateAccountRequest createAccountRequest, BigDecimal userId);
 
-    String createAccount(SaveCustomerRequest saveCustomerRequest, TblCustomer tblCustomer, TblAccount tblAccount, TblNadra tblNadra, DeviceInfo deviceInfo, HttpServletRequest httpServletRequest) throws ParseException, CustomDataNotFoundException;
+    String createAccount(SaveCustomerRequest saveCustomerRequest, TblCustomer tblCustomer, TblAccountModel tblAccount, TblNadra tblNadra, DeviceInfo deviceInfo, HttpServletRequest httpServletRequest) throws ParseException, CustomDataNotFoundException;
 
 }

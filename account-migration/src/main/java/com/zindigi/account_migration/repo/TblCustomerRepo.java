@@ -1125,6 +1125,16 @@ public interface TblCustomerRepo extends JpaRepository<TblCustomer, Long> {
             " AND (A.MOBILE_NO_HASH = SHA256.ENCRYPT(:mobileNo))  " +
             " AND (B.ACCOUNT_NO = :accountNo)", nativeQuery = true)
     BigDecimal findCountByCnicHash(@Param("cnic") String cnic, @Param("mobileNo") String mobileNo, @Param("accountNo") String accountNo);
+    @Query(value = "SELECT * FROM TBL_CUSTOMER WHERE MOBILE_NO_HASH=:mobileNoHash AND IS_ACTIVE='Y'", nativeQuery = true)
+    TblCustomer findByMobileNumber(String mobileNoHash);
 
+    @Query(value = "SELECT COUNT(DISTINCT SESSION_ID)\n" +
+            "  FROM TBL_NADRA_HITS\n" +
+            " WHERE CNIC_HASH = :cnicHash \n" +
+            "   AND SERVICE_NAME = 'BVS'\n" +
+            "   AND NADRA_RESPONSE_CODE IN ('120','122')\n" +
+            "   AND CREATEDATE BETWEEN SYSDATE - 2 AND SYSDATE\n" +
+            "HAVING COUNT(DISTINCT SESSION_ID) >= 3", nativeQuery = true)
+    Long checkForBvsExemption(String cnicHash);
 
 }

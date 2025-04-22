@@ -1,6 +1,6 @@
 package com.zindigi.account_migration.service.Impl;
 
-import com.zindigi.account_migration.controller.AbstarctApi;
+import com.mfs.commonservice.util.AbstractApi;
 import com.zindigi.account_migration.model.TblResponseMessage;
 import com.zindigi.account_migration.repo.TblResponseMessageRepo;
 import com.zindigi.account_migration.service.KycService;
@@ -11,10 +11,17 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional(rollbackOn =Exception.class )
-public class KycServiceImpl extends AbstarctApi implements KycService {
+public class KycServiceImpl extends AbstractApi implements KycService {
 
-    @Autowired
+//    @Autowired
     private TblResponseMessageRepo tblResponseMessageRepo;
+
+    public KycServiceImpl() {
+    }
+
+    public KycServiceImpl(TblResponseMessageRepo tblResponseMessageRepo) {
+        this.tblResponseMessageRepo = tblResponseMessageRepo;
+    }
 
     @Override
     public TblResponseMessage findByResponseMessageDescr(String responseMessageDesc) {

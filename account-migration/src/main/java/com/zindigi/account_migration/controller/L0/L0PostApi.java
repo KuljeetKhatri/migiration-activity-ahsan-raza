@@ -3,9 +3,17 @@ package com.zindigi.account_migration.controller.L0;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.zindigi.account_migration.controller.AbstarctApi;
-import com.zindigi.account_migration.dto.Error;
+import com.mfs.commonservice.dto.*;
+import com.mfs.commonservice.dto.Error;
+import com.mfs.commonservice.dto.Request;
+import com.mfs.commonservice.dto.Response;
+import com.mfs.commonservice.util.AbstractApi;
+import com.mfs.commonservice.util.CommonConstants;
+import com.mfs.commonservice.util.CustomException;
+import com.mfs.commonservice.util.ResponseCodeConstants;
 import com.zindigi.account_migration.dto.*;
+import com.zindigi.account_migration.dto.CheckAccountStatusRequest;
+import com.zindigi.account_migration.dto.SaveCustomerRequest;
 import com.zindigi.account_migration.model.*;
 import com.zindigi.account_migration.repo.TblMotherNameRepo;
 import com.zindigi.account_migration.repo.TblNadraRepo;
@@ -34,25 +42,25 @@ import java.util.Map;
 @RestController
 @RestControllerAdvice
 @RequestMapping(Constants.version1)
-public class L0PostApi extends AbstarctApi {
+public class L0PostApi extends AbstractApi {
 
     @Value("${account.level.0}")
     private String accountLevelNameZero;
 
-    @Autowired
+    //@Autowired
     private ValidationService validationService;
 
-    @Autowired
+    //@Autowired
     private L0Services l0Services;
-    @Autowired
+    //@Autowired
     private ResponseService responseService;
 
 
-    @Autowired
+    //@Autowired
     private TblMotherNameRepo tblMotherNameRepo;
-    @Autowired
+    //@Autowired
     private TblNadraRepo tblNadraRepo;
-    @Autowired
+    //@Autowired
     private AccountDetailsService accountDetailsService;
 
     @Value("${moduleId}")
@@ -72,12 +80,30 @@ public class L0PostApi extends AbstarctApi {
     private String accountLevelNameUltraSignature;
     @Value("${account.level.merchant}")
     private String accountLevelNameMerchant;
-    @Autowired
+    @Value("${account.type.wallet}")
+    private String accountTypeWallet;
+    @Value("${account.level.1}")
+    private String accountLevelCodeOne;
+    //@Autowired
     private L1Services l1Services;
 
-    @Autowired
+    //@Autowired
     private CommonService commonService;
 
+    public L0PostApi() {
+    }
+
+    public L0PostApi(ValidationService validationService, L0Services l0Services, ResponseService responseService, TblMotherNameRepo tblMotherNameRepo, TblNadraRepo tblNadraRepo, AccountDetailsService accountDetailsService, L1Services l1Services, CommonService commonService) {
+        this.validationService = validationService;
+        this.l0Services = l0Services;
+        this.responseService = responseService;
+        this.tblMotherNameRepo = tblMotherNameRepo;
+        this.tblNadraRepo = tblNadraRepo;
+        this.accountDetailsService = accountDetailsService;
+        this.l1Services = l1Services;
+        this.commonService = commonService;
+    }
+/*
     @SecurityRequirement(name = Constants.securityRequirement)
     @RequestMapping(value = Constants.createAccount, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> createAccount(@RequestBody String data, HttpServletRequest request) throws
@@ -309,6 +335,7 @@ public class L0PostApi extends AbstarctApi {
 
         return convertStringToResponseObject(response, response.getResponseCode());
     }
+
 
     @Transactional
     @SecurityRequirement(name = Constants.securityRequirement)
@@ -749,76 +776,76 @@ public class L0PostApi extends AbstarctApi {
 
         return convertStringToResponseObject(response, response.getResponseCode());
     }
+*/
 
 
-
-    @SecurityRequirement(name = Constants.securityRequirement)
-    @RequestMapping(value = Constants.updateaccount, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response> updateaccount(@RequestBody String data, HttpServletRequest request) throws Exception {
-        String methodName = getCurrentMethodName();
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        Request jsonRequest = convertStringToRequestObjectData(data);
-        Response response = new Response();
-        logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.startingMethod, response);
-        TblResponseMessage tblResponseMessage;
-            UpdateAccountRequest updateAccountRequest = objectMapper.readValue(convertObjecttoJson(jsonRequest.getPayLoad()), UpdateAccountRequest.class);
-            List<Error> basicValidations = validationService.validateBasicUpdateAccountRequest(updateAccountRequest, jsonRequest, jsonRequest.getAdditionalInformation());
-            if (basicValidations != null && basicValidations.isEmpty()) {
-
-                boolean isEmailExist = accountDetailsService.isEmailExistUpdateAccount(updateAccountRequest.getEmail(), updateAccountRequest.getMobileNumber());
-                if (isEmailExist) {
-                    commonService.handleResponse(null, response, Constants.EMAIL_ALREADY_EXISTS);
-                    return convertStringToResponseObject(response, response.getResponseCode());
-                }
-
-                if (updateAccountRequest.getAccountLevelName() != null && updateAccountRequest.getAccountLevelName().equals(accountLevelNameOne)) {
-                    List<Error> validations = validationService.validateUpdateAccountRequestL1(updateAccountRequest, jsonRequest.getAdditionalInformation());
-                    if (validations != null && validations.isEmpty()) {
-//                        VerifyFingerPrintRequest verifyFingerPrintRequest = new VerifyFingerPrintRequest();
-//                        verifyFingerPrintRequest.setFingerIndex(updateAccountRequest.getFingerIndex());
-//                        verifyFingerPrintRequest.setFingerTemplate(updateAccountRequest.getFingerTemplate());
-//                        verifyFingerPrintRequest.setTemplateType(updateAccountRequest.getTemplateType());
-//                        verifyFingerPrintRequest.setCnic(updateAccountRequest.getCnic());
-//                        verifyFingerPrintRequest.setMobileNumber(updateAccountRequest.getMobileNumber());
-//                        jsonRequest.setPayLoad(verifyFingerPrintRequest);
-//                        Response verifyFingerPrintResp = getResponseFromPostAPIData(createHeaderMapBackOffice(request.getHeader(Constants.AUTHORIZATION)), createPostParamBackOffice(jsonRequest), inappbvsUrl);
-//                        if (verifyFingerPrintResp.getMessage().equals(Constants.success)) {
-                            UpdateAccountLevelRequest updateAccountLevelRequest = new UpdateAccountLevelRequest();
-                            updateAccountLevelRequest.setCnic(updateAccountRequest.getCnic());
-                            updateAccountLevelRequest.setMobileNumber(updateAccountRequest.getMobileNumber());
-                            updateAccountLevelRequest.setAccountClassificationName(Constants.accountClassificationName);
-                            updateAccountLevelRequest.setAccountLevelName(updateAccountRequest.getAccountLevelName());
-                            jsonRequest.setPayLoad(updateAccountLevelRequest);
-                            Map<String, String> postParam = new HashMap<String, String>();
-                            postParam.put(Constants.requestData, convertObjecttoJson(jsonRequest));
-                            Response updateAccountLevelResponse = updateaccountlevel(new Gson().toJson(postParam), request).getBody();
-                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(updateAccountLevelResponse != null ? updateAccountLevelResponse.getMessage() : Constants.hostDown);
-                            response.setPayLoad(updateAccountLevelResponse != null ? updateAccountLevelResponse.getPayLoad() : null);
-                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-//                        } else {
-//                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(verifyFingerPrintResp.getMessage());
-//                            response.setPayLoad(verifyFingerPrintResp.getPayLoad());
-//                            response.setErrors(verifyFingerPrintResp.getErrors());
+//    @SecurityRequirement(name = Constants.securityRequirement)
+//    @RequestMapping(value = Constants.updateaccount, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Response> updateaccount(@RequestBody String data, HttpServletRequest request) throws Exception {
+//        String methodName = getCurrentMethodName();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        Request jsonRequest = convertStringToRequestObjectData(data);
+//        Response response = new Response();
+//        logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.startingMethod, response);
+//        TblResponseMessage tblResponseMessage;
+//            UpdateAccountRequest updateAccountRequest = objectMapper.readValue(convertObjecttoJson(jsonRequest.getPayLoad()), UpdateAccountRequest.class);
+//            List<Error> basicValidations = validationService.validateBasicUpdateAccountRequest(updateAccountRequest, jsonRequest, jsonRequest.getAdditionalInformation());
+//            if (basicValidations != null && basicValidations.isEmpty()) {
+//
+//                boolean isEmailExist = accountDetailsService.isEmailExistUpdateAccount(updateAccountRequest.getEmail(), updateAccountRequest.getMobileNumber());
+//                if (isEmailExist) {
+//                    commonService.handleResponse(null, response, Constants.EMAIL_ALREADY_EXISTS);
+//                    return convertStringToResponseObject(response, response.getResponseCode());
+//                }
+//
+//                if (updateAccountRequest.getAccountLevelName() != null && updateAccountRequest.getAccountLevelName().equals(accountLevelNameOne)) {
+//                    List<Error> validations = validationService.validateUpdateAccountRequestL1(updateAccountRequest, jsonRequest.getAdditionalInformation());
+//                    if (validations != null && validations.isEmpty()) {
+////                        VerifyFingerPrintRequest verifyFingerPrintRequest = new VerifyFingerPrintRequest();
+////                        verifyFingerPrintRequest.setFingerIndex(updateAccountRequest.getFingerIndex());
+////                        verifyFingerPrintRequest.setFingerTemplate(updateAccountRequest.getFingerTemplate());
+////                        verifyFingerPrintRequest.setTemplateType(updateAccountRequest.getTemplateType());
+////                        verifyFingerPrintRequest.setCnic(updateAccountRequest.getCnic());
+////                        verifyFingerPrintRequest.setMobileNumber(updateAccountRequest.getMobileNumber());
+////                        jsonRequest.setPayLoad(verifyFingerPrintRequest);
+////                        Response verifyFingerPrintResp = getResponseFromPostAPIData(createHeaderMapBackOffice(request.getHeader(Constants.AUTHORIZATION)), createPostParamBackOffice(jsonRequest), inappbvsUrl);
+////                        if (verifyFingerPrintResp.getMessage().equals(Constants.success)) {
+//                            UpdateAccountLevelRequest updateAccountLevelRequest = new UpdateAccountLevelRequest();
+//                            updateAccountLevelRequest.setCnic(updateAccountRequest.getCnic());
+//                            updateAccountLevelRequest.setMobileNumber(updateAccountRequest.getMobileNumber());
+//                            updateAccountLevelRequest.setAccountClassificationName(Constants.accountClassificationName);
+//                            updateAccountLevelRequest.setAccountLevelName(updateAccountRequest.getAccountLevelName());
+//                            jsonRequest.setPayLoad(updateAccountLevelRequest);
+//                            Map<String, String> postParam = new HashMap<String, String>();
+//                            postParam.put(Constants.requestData, convertObjecttoJson(jsonRequest));
+//                            Response updateAccountLevelResponse = updateaccountlevel(new Gson().toJson(postParam), request).getBody();
+//                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(updateAccountLevelResponse != null ? updateAccountLevelResponse.getMessage() : Constants.hostDown);
+//                            response.setPayLoad(updateAccountLevelResponse != null ? updateAccountLevelResponse.getPayLoad() : null);
 //                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
 //                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
 //                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-//                        }
-                    } else {
-                        response.setErrors(validations);
-                        tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
-                        response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-                        response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-                        logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-                    }
-                }
-
+////                        } else {
+////                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(verifyFingerPrintResp.getMessage());
+////                            response.setPayLoad(verifyFingerPrintResp.getPayLoad());
+////                            response.setErrors(verifyFingerPrintResp.getErrors());
+////                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+////                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+////                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+////                        }
+//                    } else {
+//                        response.setErrors(validations);
+//                        tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
+//                        response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+//                        response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+//                        logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+//                    }
+//                }
+//
 //                else if (updateAccountRequest.getAccountLevelName() != null && (updateAccountRequest.getAccountLevelName().equals(accountLevelNameUltraBasic) || updateAccountRequest.getAccountLevelName().equals(accountLevelNameUltraFreeLance)
 //                        || updateAccountRequest.getAccountLevelName().equals(accountLevelNameUltraSignature))) {
-//                    if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u1)) {
-//                        updateAccountRequest.setAccountClassificationName(Constants.accountClassificationName);
+////                    if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u1)) {
+////                        updateAccountRequest.setAccountClassificationName(Constants.accountClassificationName);
 ////                        List<Error> validations = validationService.validateUltraStep1(updateAccountRequest, jsonRequest.getAdditionalInformation());
 //////                        if (validations != null && validations.size() == 0) {
 //////
@@ -842,40 +869,41 @@ public class L0PostApi extends AbstarctApi {
 //////                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
 //////                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
 //////                        }
-//                    } else if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u2)) {
+////                    } else if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u2)) {
+////                        updateAccountRequest.setAccountClassificationName(Constants.accountClassificationName);
+////                        List<Error> validations = validationService.validateUltraStep1(updateAccountRequest, jsonRequest.getAdditionalInformation());
+////                        if (validations != null && validations.size() == 0) {
+////                            GenerateEmailOtpRequest generateEmailOtpRequest = new GenerateEmailOtpRequest();
+////                            generateEmailOtpRequest.setEmail(updateAccountRequest.getEmail());
+////                            generateEmailOtpRequest.setOtpTypeCode(Constants.l0OtpType);
+////                            jsonRequest.setPayLoad(generateEmailOtpRequest);
+////                            RequestData requestData = new RequestData();
+////                            requestData.setData(jsonRequest);
+////                            Response generateEmailOtpResponse1 = getStringFromRestApiWithMultipleHeader(createHeaderMapBackOffice(request.getHeader(Constants.AUTHORIZATION)), requestData, generateEmailOtpUrl);
+////                            GenerateEmailOtpResponse generateEmailOtpResponse = objectMapper.readValue(convertObjecttoJson(generateEmailOtpResponse1.getPayLoad()), GenerateEmailOtpResponse.class);
+////                            response = generateEmailOtpResponse1;
+////                            response.setPayLoad(generateEmailOtpResponse);
+////                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+////                        } else {
+////                            response.setErrors(validations);
+////                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
+////                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+////                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+////                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+////                        }
+////                    } else
+//                        if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u3)) {
 //                        updateAccountRequest.setAccountClassificationName(Constants.accountClassificationName);
-//                        List<Error> validations = validationService.validateUltraStep1(updateAccountRequest, jsonRequest.getAdditionalInformation());
-//                        if (validations != null && validations.size() == 0) {
-//                            GenerateEmailOtpRequest generateEmailOtpRequest = new GenerateEmailOtpRequest();
-//                            generateEmailOtpRequest.setEmail(updateAccountRequest.getEmail());
-//                            generateEmailOtpRequest.setOtpTypeCode(Constants.l0OtpType);
-//                            jsonRequest.setPayLoad(generateEmailOtpRequest);
-//                            RequestData requestData = new RequestData();
-//                            requestData.setData(jsonRequest);
-//                            Response generateEmailOtpResponse1 = getStringFromRestApiWithMultipleHeader(createHeaderMapBackOffice(request.getHeader(Constants.AUTHORIZATION)), requestData, generateEmailOtpUrl);
-//                            GenerateEmailOtpResponse generateEmailOtpResponse = objectMapper.readValue(convertObjecttoJson(generateEmailOtpResponse1.getPayLoad()), GenerateEmailOtpResponse.class);
-//                            response = generateEmailOtpResponse1;
-//                            response.setPayLoad(generateEmailOtpResponse);
-//                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-//                        } else {
-//                            response.setErrors(validations);
-//                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
-//                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-//                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-//                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-//                        }
-//                    } else if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u3)) {
-//                        updateAccountRequest.setAccountClassificationName(Constants.accountClassificationName);
-//                        List<Error> validations = validationService.validateUltraStep3(updateAccountRequest, jsonRequest.getAdditionalInformation());
-//                        if (validations != null && validations.size() == 0) {
-//                            VerifyEmailOtpRequest verifyEmailOtpRequest = new VerifyEmailOtpRequest();
-//                            verifyEmailOtpRequest.setEmail(updateAccountRequest.getEmail());
-//                            verifyEmailOtpRequest.setOtpTypeCode(Constants.l0OtpType);
-//                            verifyEmailOtpRequest.setOtpPin(updateAccountRequest.getEmailOtpPin());
-//                            verifyEmailOtpRequest.setOtpId(updateAccountRequest.getEmailOtpId());
-//                            jsonRequest.setPayLoad(verifyEmailOtpRequest);
-//                            Response verifyEmailOtpResponse1 = getResponseFromPostAPIData(createHeaderMapBackOffice(request.getHeader(Constants.AUTHORIZATION)), createPostParamBackOffice(jsonRequest), verifyEmailOtpUrl);
-//                            if (verifyEmailOtpResponse1.getMessage().equals(Constants.success)) {
+////                        List<Error> validations = validationService.validateUltraStep3(updateAccountRequest, jsonRequest.getAdditionalInformation());
+////                        if (validations != null && validations.size() == 0) {
+////                            VerifyEmailOtpRequest verifyEmailOtpRequest = new VerifyEmailOtpRequest();
+////                            verifyEmailOtpRequest.setEmail(updateAccountRequest.getEmail());
+////                            verifyEmailOtpRequest.setOtpTypeCode(Constants.l0OtpType);
+////                            verifyEmailOtpRequest.setOtpPin(updateAccountRequest.getEmailOtpPin());
+////                            verifyEmailOtpRequest.setOtpId(updateAccountRequest.getEmailOtpId());
+////                            jsonRequest.setPayLoad(verifyEmailOtpRequest);
+////                            Response verifyEmailOtpResponse1 = getResponseFromPostAPIData(createHeaderMapBackOffice(request.getHeader(Constants.AUTHORIZATION)), createPostParamBackOffice(jsonRequest), verifyEmailOtpUrl);
+////                            if (verifyEmailOtpResponse1.getMessage().equals(Constants.success)) {
 //                                GetKycRequest getKycRequest = new GetKycRequest();
 //                                getKycRequest.setMobileNumber(updateAccountRequest.getMobileNumber());
 //                                getKycRequest.setAccountClassificationName(Constants.accountClassificationName);
@@ -942,23 +970,23 @@ public class L0PostApi extends AbstarctApi {
 //                                    response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
 //                                    logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
 //                                }
-//                            } else {
-//                                tblResponseMessage = responseService.getResponseMessageByResponseDescr(verifyEmailOtpResponse1.getMessage());
-//                                response.setErrors(verifyEmailOtpResponse1.getErrors());
-//                                response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-//                                response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-//                                logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+////                            } else {
+////                                tblResponseMessage = responseService.getResponseMessageByResponseDescr(verifyEmailOtpResponse1.getMessage());
+////                                response.setErrors(verifyEmailOtpResponse1.getErrors());
+////                                response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+////                                response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+////                                logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+////
+////                            }
 //
-//                            }
 //
-//
-//                        } else {
-//                            response.setErrors(validations);
-//                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
-//                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-//                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-//                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-//                        }
+////                        } else {
+////                            response.setErrors(validations);
+////                            tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
+////                            response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+////                            response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+////                            logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+////                        }
 //                    } else if (updateAccountRequest.getStep() != null && !updateAccountRequest.getStep().equals(Constants.empty) && updateAccountRequest.getStep().equals(Constants.u6)) {
 //                        UltraCheckDocumentStatus ultraCheckDocumentStatus = new UltraCheckDocumentStatus();
 //                        ultraCheckDocumentStatus.setMobileNumber(updateAccountRequest.getMobileNumber());
@@ -1215,60 +1243,126 @@ public class L0PostApi extends AbstarctApi {
 //                    logs(Constants.updateaccount, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
 //
 //                }
-            } else {
-                response.setErrors(basicValidations);
-                tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
-                response.setErrors(basicValidations);
-                response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-                response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-                logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-            }
+//            } else {
+//                response.setErrors(basicValidations);
+//                tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
+//                response.setErrors(basicValidations);
+//                response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+//                response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+//                logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+//            }
+//
+//        return convertStringToResponseObject(response, response != null ? response.getResponseCode() : Constants.generalProcessingCode);
+//    }
 
-        return convertStringToResponseObject(response, response != null ? response.getResponseCode() : Constants.generalProcessingCode);
-    }
+//
+//    @SecurityRequirement(name = Constants.securityRequirement)
+//    @RequestMapping(value = Constants.updateaccountlevel, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Response> updateaccountlevel(@RequestBody String data, HttpServletRequest request) throws Exception {
+//        String methodName = getCurrentMethodName();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        Request jsonRequest = convertStringToRequestObjectData(data);
+//        Response response = new Response();
+//        logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.startingMethod, response);
+//        TblResponseMessage tblResponseMessage;
+//
+//            UpdateAccountLevelRequest updateAccountLevelRequest = objectMapper.readValue(convertObjecttoJson(jsonRequest.getPayLoad()), UpdateAccountLevelRequest.class);
+//            List<Error> validations = validationService.validateUpdateAccountLevelRequest(updateAccountLevelRequest, jsonRequest.getAdditionalInformation());
+//            if (validations != null && validations.size() == 0) {
+//                String responseData = l1Services.updateaccountlevel(updateAccountLevelRequest, jsonRequest.getAdditionalInformation(), request, jsonRequest);
+//                if (responseData != null) {
+//                    if (responseData.contains(Constants.accountUpdatedto) || responseData.contains(Constants.accountAlreadyUpdatedto)) {
+//                        commonService.calculateRiskScoreAndRating(updateAccountLevelRequest.getMobileNumber(), updateAccountLevelRequest.getAccountLevelName(), jsonRequest, request);
+//                    }
+//                    tblResponseMessage = responseService.getResponseMessageByResponseDescr(responseData);
+//                    response.setPayLoad(null);
+//                    response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+//                    response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+//                    logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+//                } else {
+//                    tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.recordNotUpdated);
+//                    response.setPayLoad(null);
+//                    response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+//                    response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+//                    logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+//                }
+//            } else {
+//                response.setErrors(validations);
+//                tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
+//                response.setErrors(validations);
+//                response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
+//                response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
+//                logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+//            }
+//
+//        return convertStringToResponseObject(response, response.getResponseCode());
+//    }
+
 
 
     @SecurityRequirement(name = Constants.securityRequirement)
-    @RequestMapping(value = Constants.updateaccountlevel, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response> updateaccountlevel(@RequestBody String data, HttpServletRequest request) throws Exception {
-        String methodName = getCurrentMethodName();
-        ObjectMapper objectMapper = new ObjectMapper();
-        Request jsonRequest = convertStringToRequestObjectData(data);
-        Response response = new Response();
-        logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.startingMethod, response);
-        TblResponseMessage tblResponseMessage;
+    @RequestMapping(value = Constants.updateaccount, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response> updateaccount(@RequestBody RequestData data, HttpServletRequest request) throws Exception {
 
-            UpdateAccountLevelRequest updateAccountLevelRequest = objectMapper.readValue(convertObjecttoJson(jsonRequest.getPayLoad()), UpdateAccountLevelRequest.class);
-            List<Error> validations = validationService.validateUpdateAccountLevelRequest(updateAccountLevelRequest, jsonRequest.getAdditionalInformation());
-            if (validations != null && validations.size() == 0) {
-                String responseData = l1Services.updateaccountlevel(updateAccountLevelRequest, jsonRequest.getAdditionalInformation(), loggedUserDetail, request, jsonRequest);
-                if (responseData != null) {
-                    if (responseData.contains(Constants.accountUpdatedto) || responseData.contains(Constants.accountAlreadyUpdatedto)) {
-                        commonService.calculateRiskScoreAndRating(updateAccountLevelRequest.getMobileNumber(), updateAccountLevelRequest.getAccountLevelName(), jsonRequest, request);
-                    }
-                    tblResponseMessage = responseService.getResponseMessageByResponseDescr(responseData);
-                    response.setPayLoad(null);
-                    response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-                    response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-                    logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-                } else {
-                    tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.recordNotUpdated);
-                    response.setPayLoad(null);
-                    response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-                    response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-                    logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
-                }
-            } else {
-                response.setErrors(validations);
-                tblResponseMessage = responseService.getResponseMessageByResponseDescr(Constants.validationFailed);
-                response.setErrors(validations);
-                response.setResponseCode(tblResponseMessage != null ? moduleId + tblResponseMessage.getResponseMessageCode() : moduleId + Constants.generalProcessingCode);
-                response.setMessage(tblResponseMessage != null ? tblResponseMessage.getResponseMessageDescr() : Constants.generalProcessingError);
-                logs(Constants.updateaccountlevel, Constants.logLevelInfo, this.getClass().getSimpleName(), methodName, this.getClass().getPackageName(), jsonRequest, Constants.endingMethod, response);
+
+        Request jsonRequest = data.getData();
+        Response response = new Response();
+        String headerValue = request.getHeader(Constants.AUTHORIZATION);
+        BigDecimal userId = (BigDecimal) request.getAttribute(CommonConstants.USER_ID);
+        UpdateAccountRequest updateAccountRequest = fromJson(convertObjecttoJson(jsonRequest.getPayLoad()), UpdateAccountRequest.class);
+        List<Error> basicValidations = validationService.validateBasicUpdateAccountRequest(updateAccountRequest, jsonRequest, jsonRequest.getAdditionalInformation());
+        if (basicValidations.isEmpty()) {
+            // check current level and proceeding level
+//            boolean isUpdated = commonService.checkAccountUpgradtionLevel(jsonRequest, updateAccountRequest.getMobileNumber(), updateAccountRequest.getAccountLevelCode(), headerValue);
+//            if (isUpdated == false) {
+//                throw new CustomException(ResponseCodeConstants.FAILED_TO_UPDATE_ACCOUNT_LEVEL);
+//            }
+            CheckCustomerAccountStatusRequest accountStatusRequest = new CheckCustomerAccountStatusRequest();
+            accountStatusRequest.setMobileNumber(updateAccountRequest.getMobileNumber());
+            accountStatusRequest.setAccountTypeCode(accountTypeWallet);
+            CheckCustomerAccountStatusResponse customerAccountStatus = commonService.checkCustomerAccountStatus(accountStatusRequest, jsonRequest, request);
+            if (customerAccountStatus == null || !customerAccountStatus.getCode().equals(ResponseCodeConstants.SUCCESS)) {
+                throw new CustomException(customerAccountStatus != null ? customerAccountStatus.getCode() : ResponseCodeConstants.HOST_DOWN);
             }
 
-        return convertStringToResponseObject(response, response.getResponseCode());
-    }
+            if (updateAccountRequest.getAccountLevelCode().equals(accountLevelCodeOne)) {
+                handleAccountLevelOne(jsonRequest, headerValue, userId, updateAccountRequest, customerAccountStatus);
+            }
+            UpdateAccountLevelRequest updateAccountLevelRequest = new UpdateAccountLevelRequest();
+            updateAccountLevelRequest.setMobileNumber(customerAccountStatus.getMobileNumber());
+            updateAccountLevelRequest.setCnic(customerAccountStatus.getCnic());
+            updateAccountLevelRequest.setFromAccountLevelCode(customerAccountStatus.getAccountLevelCode());
+            updateAccountLevelRequest.setToAccountLevelCode(updateAccountRequest.getAccountLevelCode());
+            HashMap<String, Object> updateaccountlevel = commonService.updateaccountlevel(updateAccountLevelRequest, jsonRequest.getAdditionalInformation(), userId, request.getHeader(CommonConstants.AUTHORIZATION), jsonRequest);
+            if ((boolean) updateaccountlevel.get(Constants.IS_SUCCESS)) {
+                commonService.checkAccountIsTrusted(updateAccountLevelRequest.getMobileNumber(), updateAccountLevelRequest.getFromAccountLevelCode(), jsonRequest, headerValue);
+                commonService.calculateRiskScoreAndRating(updateAccountLevelRequest.getMobileNumber(), updateAccountLevelRequest.getFromAccountLevelCode(), jsonRequest, request.getHeader(Constants.AUTHORIZATION));
+            }
+            setResponse(response, (String) updateaccountlevel.get(Constants.MESSAGE_KEY), null);
 
+
+        } else {
+            setValidationResponse(response, basicValidations);
+        }
+
+        return castResponseToEntity(response, response.getResponseCode());
+    }
+    private void handleAccountLevelOne(com.mfs.commonservice.dto.Request jsonRequest, String headerValue, BigDecimal userId, UpdateAccountRequest updateAccountRequest, CheckCustomerAccountStatusResponse customerAccountStatus) throws NoSuchAlgorithmException, ParseException {
+        String accountUpdateResponse;
+        UpdateNadraRecord updateNadraRecord = new UpdateNadraRecord();
+        updateNadraRecord.setAreaName(customerAccountStatus.getProvinceName() == null ? "Punjab" : customerAccountStatus.getProvinceName());
+        updateNadraRecord.setMobileNumber(customerAccountStatus.getMobileNumber());
+        updateNadraRecord.setCnic(customerAccountStatus.getCnic());
+        updateNadraRecord.setType(Constants.NADRA_UPDATE_TYPE_BVS);
+        updateNadraRecord.setCustomerFpData(updateAccountRequest.getCustomerFpData());
+        updateNadraRecord.setTemplateType(updateAccountRequest.getTemplateType());
+        accountUpdateResponse = l1Services.updateNadraRecord(updateNadraRecord, jsonRequest, headerValue, userId);
+        if (handleResponseCode(accountUpdateResponse).equalsIgnoreCase(ResponseCodeConstants.SUCCESS)) {
+            l1Services.updateBvsStatusByMobileNumber(customerAccountStatus.getMobileNumber(), Constants.yes, userId);
+        } else {
+            throw new CustomException(!isNullOrEmpty(accountUpdateResponse) ? accountUpdateResponse : ResponseCodeConstants.BVS_NOT_VERIFIED);
+
+        }
+    }
 
 }

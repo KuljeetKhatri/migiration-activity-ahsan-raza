@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
-import com.zindigi.account_migration.controller.AbstarctApi;
+import com.mfs.commonservice.dto.Request;
+import com.mfs.commonservice.dto.Response;
+import com.mfs.commonservice.util.AbstractApi;
 import com.zindigi.account_migration.dto.*;
 import com.zindigi.account_migration.model.*;
 import com.zindigi.account_migration.repo.*;
@@ -17,12 +19,13 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.Date;
+
+import static com.zindigi.account_migration.util.app.Utility.createPostParamBackOffice;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
-public class RaastServiceImpl extends AbstarctApi implements RaastServices {
+public class RaastServiceImpl extends AbstractApi implements RaastServices {
     @Autowired
     private TblAccountRepo tblAccountRepo;
     @Value("${get.kyc.url}")
@@ -50,9 +53,14 @@ public class RaastServiceImpl extends AbstarctApi implements RaastServices {
 
     @Override
     public RaastUpdateLinkingResponse updateRaastLinking(Request jsonRequest, RaastLinkingRequest raastLinkingRequest, HttpServletRequest httpServletRequest) throws JsonProcessingException {
+        return null;
+    }
+
+  /*  @Override
+    public RaastUpdateLinkingResponse updateRaastLinking(Request jsonRequest, RaastLinkingRequest raastLinkingRequest, HttpServletRequest httpServletRequest) throws JsonProcessingException {
         RaastUpdateLinkingRequest raastUpdateLinkingRequest = new RaastUpdateLinkingRequest();
         RaastUpdateLinkingResponse raastUpdateLinkingResponse;
-        TblAccount tblAccount = tblAccountRepo.findByMobileNoHashAndAccountLevelName(raastLinkingRequest.getMobileNumber(), raastLinkingRequest.getAccountLevelName(),accountTypeWallet);
+        TblAccountModel tblAccount = tblAccountRepo.findByMobileNoHashAndAccountLevelName(raastLinkingRequest.getMobileNumber(), raastLinkingRequest.getAccountLevelName(),accountTypeWallet);
         if(tblAccount!=null) {
             GetKycRequest getKycRequest = new GetKycRequest();
             getKycRequest.setMobileNumber(raastLinkingRequest.getMobileNumber());
@@ -91,7 +99,7 @@ public class RaastServiceImpl extends AbstarctApi implements RaastServices {
                             raastUpdateLinkingRequest.setIsdeLinking(raastLinkingRequest.isIsdeLinking());
                             raastUpdateLinkingRequest.setGender(tblAccount.getTblCustomer().getGender().toUpperCase());
                             raastUpdateLinkingRequest.setName(getKycResponse.getAccountTitle().toUpperCase());
-                            raastUpdateLinkingRequest.setIban(tblMerchant.getTblAccount().getIban());
+                            raastUpdateLinkingRequest.setIban(tblMerchant.getTblAccountModel().getIban());
                             raastUpdateLinkingRequest.setBusinessName(tblMerchant.getBusinessName());
                             raastUpdateLinkingRequest.setCity(tblMerchant.getLkpCity().getCityName().toUpperCase());
                             LkpProvince lkpProvince=lkpProvinceRepo.findById(tblMerchant.getLkpCity().getProvinceId()).orElse(null);
@@ -209,5 +217,5 @@ public class RaastServiceImpl extends AbstarctApi implements RaastServices {
             raastUpdateLinkingResponse.setResponseDescription(tblResponseMessage.getResponseMessageDescr());
         }
         return raastUpdateLinkingResponse;
-    }
+    }*/
 }

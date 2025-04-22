@@ -3,6 +3,8 @@ package com.zindigi.account_migration.dto;
 
 import com.zindigi.account_migration.util.Constants;
 
+import java.util.Date;
+
 public class GetKycResponse {
     private String cnic;
     private String nameEn;
@@ -20,6 +22,9 @@ public class GetKycResponse {
     private String mobileNo;
     private String accountTitle;
     private String cnicHash;
+    private String gender;
+    private Date cnicIssuanceDate;
+    private String cnicExpiryDate;
     public String reserved1 = Constants.empty;
     public String reserved2 = Constants.empty;
     public String reserved3 = Constants.empty;
@@ -238,5 +243,29 @@ public class GetKycResponse {
 
     public void setReserved10(String reserved10) {
         this.reserved10 = reserved10;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getCnicIssuanceDate() {
+        return cnicIssuanceDate;
+    }
+
+    public void setCnicIssuanceDate(Date cnicIssuanceDate) {
+        this.cnicIssuanceDate = cnicIssuanceDate;
+    }
+
+    public String getCnicExpiryDate() {
+        return cnicExpiryDate;
+    }
+
+    public void setCnicExpiryDate(String cnicExpiryDate) {
+        this.cnicExpiryDate = cnicExpiryDate;
     }
 }

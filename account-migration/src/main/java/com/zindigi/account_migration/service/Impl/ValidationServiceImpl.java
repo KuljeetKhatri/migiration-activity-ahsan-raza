@@ -1,7 +1,12 @@
 package com.zindigi.account_migration.service.Impl;
 
+import com.mfs.commonservice.dto.AdditionalInformation;
+import com.mfs.commonservice.dto.Error;
+import com.mfs.commonservice.dto.Request;
+import com.mfs.commonservice.model.LkpCmsResponseMessage;
+import com.mfs.commonservice.util.AbstractApi;
+import com.mfs.commonservice.util.ResponseCodeConstants;
 import com.zindigi.account_migration.dto.*;
-import com.zindigi.account_migration.dto.Error;
 import com.zindigi.account_migration.model.TblResponseMessage;
 import com.zindigi.account_migration.repo.TblResponseMessageRepo;
 import com.zindigi.account_migration.repo.TblValidatorRepo;
@@ -17,12 +22,11 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackOn =Exception.class )
+public class ValidationServiceImpl extends AbstractApi implements ValidationService {
 
-public class ValidationServiceImpl implements ValidationService {
-
-    @Autowired
+//    @Autowired
     TblValidatorRepo tblValidatorRepo;
-    @Autowired
+//    @Autowired
     TblResponseMessageRepo tblResponseMessageRepo;
 
     @Value("${account.level.0}")
@@ -30,6 +34,14 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Value("${account.level.merchant}")
     private String accountLevelNameMerchant;
+
+    public ValidationServiceImpl(){
+    }
+    public ValidationServiceImpl(TblValidatorRepo tblValidatorRepo,TblResponseMessageRepo tblResponseMessageRepo){
+    this.tblValidatorRepo = tblValidatorRepo;
+    this.tblResponseMessageRepo = tblResponseMessageRepo;
+    }
+
     @Override
     public List<Error> validateCheckaccountstatus(CheckAccountStatusRequest checkAccountStatusRequest, List<AdditionalInformation> additionalInformationList) {
         List<Error> validationErrors = new ArrayList<>();
@@ -316,39 +328,47 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public List<Error> validateUpdateAccountLevelRequest(UpdateAccountLevelRequest updateAccountLevelRequest, List<AdditionalInformation> additionalInformationList) {
         List<Error> validationErrors = new ArrayList<>();
-        TblResponseMessage tblResponseMessage;
+        LkpCmsResponseMessage lkpCmsResponseMessage;
         Error error;
         int addParamValidator = 0;
         String mobileValidator = Constants.mobileNumberPattern;
         String cnicValidator = Constants.CNIC_VALIDATION_PATTERN;
         //checking Account Level
-        if (updateAccountLevelRequest.getAccountLevelName() == null || updateAccountLevelRequest.getAccountLevelName().equals(Constants.empty)) {
+        if (isNullOrEmpty(updateAccountLevelRequest.getFromAccountLevelCode())) {
             error = new Error();
-            tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidAccountLevel);
-            error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-            error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+            lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.INVALID_ACCOUNT_LEVEL);
+            error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+            error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
             validationErrors.add(error);
         }
-        List<Object> objectList = tblValidatorRepo.getKyc(updateAccountLevelRequest.getAccountClassificationName(), updateAccountLevelRequest.getAccountLevelName());
+        //checking Account Level
+        if (isNullOrEmpty(updateAccountLevelRequest.getToAccountLevelCode())) {
+            error = new Error();
+            lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.INVALID_ACCOUNT_LEVEL);
+            error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+            error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
+            validationErrors.add(error);
+        }
+        List<Object> objectList = tblValidatorRepo.getKyc(updateAccountLevelRequest.getAccountClassificationCode(), updateAccountLevelRequest.getFromAccountLevelCode());
         if (objectList != null && !objectList.isEmpty()) {
             validationErrors = new ArrayList<>();
             for (Object object : objectList) {
                 Object[] objects = (Object[]) object;
                 if (objects[0].toString().equals(Constants.MOBILE_NUMBER_VALIDATOR) && objects[2].toString().equalsIgnoreCase(Constants.yes)) {
                     mobileValidator = objects[1].toString();
-                    if (updateAccountLevelRequest.getMobileNumber() == null || updateAccountLevelRequest.getMobileNumber().matches(objects[1].toString()) == false) {
+                    if (isNullOrEmpty(updateAccountLevelRequest.getMobileNumber()) || updateAccountLevelRequest.getMobileNumber().matches(objects[1].toString()) == false) {
                         error = new Error();
-                        tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidMobileNumber);
-                        error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                        error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+                        lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.INVALID_MOBILE_NUMBER);
+                        error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+                        error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
                         validationErrors.add(error);
                     }
                 } else {
                     if (objects[0].toString().equals(Constants.MOBILE_NUMBER_VALIDATOR) && updateAccountLevelRequest.getMobileNumber() != null && !updateAccountLevelRequest.getMobileNumber().isEmpty() && updateAccountLevelRequest.getMobileNumber().matches(objects[1].toString()) == false) {
                         error = new Error();
-                        tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidMobileNumber);
-                        error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                        error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+                        lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.INVALID_MOBILE_NUMBER);
+                        error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+                        error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
                         validationErrors.add(error);
                     }
                 }
@@ -364,70 +384,33 @@ public class ValidationServiceImpl implements ValidationService {
                     if (objects[0].equals(additionalInformation.getInfoKey()) && objects[2].toString().equalsIgnoreCase(Constants.yes)) {
                         if (additionalInformation.getInfoValue() == null || additionalInformation.getInfoValue().isEmpty() || additionalInformation.getInfoValue().matches(objects[1].toString()) == false) {
                             error = new Error();
-                            error.setErrorCode(Constants.fieldValidationCode);
+                            error.setErrorCode(ResponseCodeConstants.VALIDATIONS_FAILED);
                             error.setErrorDescr(Constants.INVALID_ADDITIONAL_FIELD);
                             validationErrors.add(error);
                         }
                     } else {
                         if (objects[0].equals(additionalInformation.getInfoKey()) && additionalInformation.getInfoValue() != null && !additionalInformation.getInfoValue().isEmpty() && additionalInformation.getInfoValue().matches(objects[1].toString()) == false) {
                             error = new Error();
-                            error.setErrorCode(Constants.fieldValidationCode);
+                            error.setErrorCode(ResponseCodeConstants.VALIDATIONS_FAILED);
                             error.setErrorDescr(Constants.INVALID_ADDITIONAL_FIELD);
                             validationErrors.add(error);
                         }
                     }
                 }
             }
-            if ((updateAccountLevelRequest.getMobileNumber() == null || updateAccountLevelRequest.getMobileNumber().matches(mobileValidator) == false) && (updateAccountLevelRequest.getCnic() == null || updateAccountLevelRequest.getCnic().matches(cnicValidator) == false)) {
+            if ((isNullOrEmpty(updateAccountLevelRequest.getMobileNumber()) || updateAccountLevelRequest.getMobileNumber().matches(mobileValidator) == false) && (isNullOrEmpty(updateAccountLevelRequest.getCnic()) || updateAccountLevelRequest.getCnic().matches(cnicValidator) == false)) {
                 if (updateAccountLevelRequest.getCnic().matches(cnicValidator) == false) {
                     error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidCnic);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+                    lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.INVALID_CNIC);
+                    error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+                    error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
                     validationErrors.add(error);
                 }
                 if (updateAccountLevelRequest.getMobileNumber().matches(mobileValidator) == false) {
                     error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidMobileNumber);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
-                    validationErrors.add(error);
-                }
-            }
-            if (updateAccountLevelRequest.getAccountLevelName() != null && updateAccountLevelRequest.getAccountLevelName().equals(accountLevelNameMerchant)) {
-                if (updateAccountLevelRequest.getBusinessName() == null || updateAccountLevelRequest.getBusinessName().isEmpty()) {
-                    error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidBusinessName);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
-                    validationErrors.add(error);
-                }
-                if (updateAccountLevelRequest.getMonthlySaleExpectedCode() == null || updateAccountLevelRequest.getMonthlySaleExpectedCode().isEmpty()) {
-                    error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.INVALID_MONTHLY_SALE_ECPECTED_CODE);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
-                    validationErrors.add(error);
-                }
-                if (updateAccountLevelRequest.getBusinessAddress() == null || updateAccountLevelRequest.getBusinessAddress().isEmpty()) {
-                    error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.invalidAddress);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
-                    validationErrors.add(error);
-                }
-                if (updateAccountLevelRequest.getCityCode() == null || updateAccountLevelRequest.getCityCode().isEmpty()) {
-                    error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.INVALID_CITY_CODE);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
-                    validationErrors.add(error);
-                }
-                if (updateAccountLevelRequest.getBusinessTypeCode() == null || updateAccountLevelRequest.getBusinessTypeCode().isEmpty()) {
-                    error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.INVALID_BUSINESS_TYPE_CODE);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+                    lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.INVALID_MOBILE_NUMBER);
+                    error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+                    error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
                     validationErrors.add(error);
                 }
             }
@@ -437,18 +420,18 @@ public class ValidationServiceImpl implements ValidationService {
             } else {
                 if (additionalInformationList.size() != addParamValidator) {
                     error = new Error();
-                    tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.validationFailed);
-                    error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-                    error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+                    lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.VALIDATIONS_FAILED);
+                    error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+                    error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
                     validationErrors.add(error);
                 }
             }
 
         } else {
             error = new Error();
-            tblResponseMessage = tblResponseMessageRepo.findByResponseMessageDescr(Constants.noValidatorSetFound);
-            error.setErrorCode(tblResponseMessage.getResponseMessageCode());
-            error.setErrorDescr(tblResponseMessage.getResponseMessageDescr());
+            lkpCmsResponseMessage = genericCommonService.getResponseMessageByResponseCode(ResponseCodeConstants.NO_VALIDATOR_SET_FOUND);
+            error.setErrorCode(lkpCmsResponseMessage.getCmsResponseMessageCode());
+            error.setErrorDescr(lkpCmsResponseMessage.getResponseMessageDescr());
             validationErrors.add(error);
         }
         return validationErrors;

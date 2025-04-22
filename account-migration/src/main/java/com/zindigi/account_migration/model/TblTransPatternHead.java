@@ -1,5 +1,8 @@
 package com.zindigi.account_migration.model;
 
+import com.mfs.commonservice.model.LkpChannel;
+import com.mfs.commonservice.model.LkpSegment;
+
 import javax.persistence.*;import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
